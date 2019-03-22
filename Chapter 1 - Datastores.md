@@ -118,21 +118,21 @@ Concepts
 
 Glacier:
   - Cheap, slow to respond, seldom accessed
-    Cold Storage
-    Used by Storage Gateway Virtual Tape Library
-    Integrated with S3 via Lifecycle Management
-    Faster retrieval speed options for an additional fee
+  - Cold Storage
+  - Used by Storage Gateway Virtual Tape Library
+  - Integrated with S3 via Lifecycle Management
+  - Faster retrieval speed options for an additional fee
   - Security:
     - Access control via IAM
       Archive:
         - File, zip, tar etc
-          Max Size 40 TB
-          Immutable: Can delete or overwrite but can't change once uploaded to Vault
+        - Max Size 40 TB
+        - Immutable: Can delete or overwrite but can't change once uploaded to Vault
       Glacier Vault Lock
         - Different than vault access Policy
-          Enforce rules like no deletes or MFA
-          Immutable: Can delete or overwrite but can't change once uploaded to Vault
-          Once the Vault Lock has been initiated have only 24 hours to change the mind, if not it becomes permanent.
+        - Enforce rules like no deletes or MFA
+        - Immutable: Can delete or overwrite but can't change once uploaded to Vault
+        - Once the Vault Lock has been initiated have only 24 hours to change the mind, if not it becomes permanent.
 
 Amazon EBS:
   - Think virtual hard drives
@@ -143,14 +143,14 @@ Amazon EBS:
   - EBS vs Instance Storage:
     - Instance Storage:
       - Temporary
-        Ideal for caches
-        Data goes away when EC2 instance stops or gets terminated
+      - Ideal for caches
+      - Data goes away when EC2 instance stops or gets terminated
     - EBS:
       - Not locked; Attach or detach
-        Snapshotted
-        EC2 Writes over a network to EBS
+      - Snapshotted
+      - EC2 Writes over a network to EBS
   - EBS Snapshots
     - Cost-effective and easy backup strategy
-      Share data sets with other users or accounts
-      Migrate EC2 instances from one AZ or Region to another.
-      Convert unencrypted volume to encrypted
+    - Share data sets with other users or accounts
+    - Migrate EC2 instances from one AZ or Region to another.
+    - Convert unencrypted volume to encrypted
