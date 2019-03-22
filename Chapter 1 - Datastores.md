@@ -1,46 +1,39 @@
 Concepts:
-  Data Persistence:
-    Persistent Data Store:
-      Description: Data is Durable and sticks around after reboots, restarts and power cycles
-      Examples: Glacier, RDS, EBS
-    Transient Data Store:
-      Description: Data is just temporarily stored and passed along to another process or persistent store
-      Examples: SQS and SNS
-    Ephemeral (Temporary) Data Store:
-      Description: Data is lost when stopped
-      Examples: EC2 Instance Store, Memcached
-  Data Performance:
-    IOPS:
-      Description: Input/Output Operations per second. Measures how fast we can read or write to a device
-      Example: A small compact sports car that goes really fast
-    Throughput:
-      Description: Measure of how much data can be moved at one time
-      Example: A garbage truck moves slowly with lot of data
-  Consistency:
-    Description: A set a ground rules to ensure that a datastore plays by so that we can sure that when we hand the data it behaves in certain way.
-      Consistency Models:
-        ACID:
-          Atomic:
-            Description: Transactions are "all or nothing". No half transactions.
-          Consistent:
-            Description: Transactions must be valid. They can't be corrupted.
-          Isolated:
-            Description: Transactions can't mess with one another.
-          Durable:
-            Description: Completed transactions must stick around.
-          Examples: RDS
-        BASE:
-          Basic Availability:
-            Description: Values available even if it is stale.
-          Soft State:
-            Description: Might not be instantly consistent across stores.
-          Eventual Consistency:
-            Description: Will achieve consistency at some point.
-          Examples: S3 and DynamoDB
-      ACID vs Base:
-        - ACID is rigid not flexible, where as BASE allows flexibility
-          ACID is good for serial tasks, where as BASE is suitable for parallel tasks
-          ACID is not scalable, where as BASE is highly scalable
+  - Data Persistence
+      - Persistent Data Store
+          - Data is Durable and sticks around after reboots, restarts and power cycles
+          - Examples: Glacier, RDS, EBS
+      - Transient Data Store
+          - Data is just temporarily stored and passed along to another process or persistent store
+          - Examples: SQS and SNS
+      - Ephemeral (Temporary) Data Store
+          - Data is lost when stopped
+          - Examples: EC2 Instance Store, Memcached
+  - Data Performance
+      - IOPS
+        - Input/Output Operations per second. Measures how fast we can read or write to a device
+        - Analogy: A small compact sports car that goes really fast with small amount of data.
+      - Throughput
+        - Measure of how much data can be moved at one time
+        - Analogy A garbage truck moves slowly with lot of data
+  - Consistency
+      - A set a ground rules to ensure that a datastore plays by so that we can sure that when we hand the data it behaves in certain way.
+  - Consistency Models
+      - ACID
+          - Atomic: Transactions are "all or nothing". No half transactions.
+          - Consistent: Transactions must be valid. They can't be corrupted.
+          - Isolated: Transactions can't mess with one another.
+          - Durable: Completed transactions must stick around.
+          - Examples: RDS
+        - BASE
+          - Basic Availability: Values available even if it is stale.
+          - Soft State: Might not be instantly consistent across stores.
+          - Eventual Consistency: Will achieve consistency at some point.
+          - Examples: S3 and DynamoDB
+        - ACID vs Base:
+          - ACID is rigid not flexible, where as BASE allows flexibility
+          - ACID is good for serial tasks, where as BASE is suitable for parallel tasks
+          - ACID is not scalable, where as BASE is highly scalable
 S3:
   Description:
     - One of the first services AWS introduced back in 2006.
@@ -97,33 +90,33 @@ S3:
 
       S3 Cross Region Replication:
         - Security
-          Compliance
-          Latency
+        - Compliance
+        - Latency
 
       S3 Lifecycle Management:
         - Optimize Storage Costs
-          Adhere to Data Retention Policies
-          Keep S3 volumes well-maintained
+        - Adhere to Data Retention Policies
+        - Keep S3 volumes well-maintained
 
       S3 Analytics:
         - Data Lake: Athena, Redshift, Spectrum, QuickSight
-          IoT Streaming Data Repository: Kinesis Firehose
-          Machine Learning and AI Storage: Rekognition, Lex, MXNet
-          Storage Class Analysis: S3 Management Analytics
+        - IoT Streaming Data Repository: Kinesis Firehose
+        - Machine Learning and AI Storage: Rekognition, Lex, MXNet
+        - Storage Class Analysis: S3 Management Analytics
 
       S3 Encryption at Rest:
         - SSE-S3: Server Side Encryption, S3's existing built-in AWS provided AES-256 KEY
-          SSE-C: Customer supplied Encryption Key.
-          SSE-KMS: Use a key generated and managed by AWS KMS
-          Client-Side: Encrypt objects using your own local encryption before uploading to S3 (PGP, GPG etc)
+        - SSE-C: Customer supplied Encryption Key.
+        - SSE-KMS: Use a key generated and managed by AWS KMS
+        - Client-Side: Encrypt objects using your own local encryption before uploading to S3 (PGP, GPG etc)
 
       Nifty Tricks:
         - Transfer Acceleration: Setup data uploads using CloudFront in reverse
-          Requestor plays:
-          Tags:
-          Events: Trigger notifications to SQS, SNS and Lambda
-          Static Web Hosting:
-          BitTorrent:
+        - Requestor plays
+        - Tags
+        - Events: Trigger notifications to SQS, SNS and Lambda
+        - Static Web Hosting
+        - BitTorrent
 
 Glacier:
   - Cheap, slow to respond, seldom accessed
