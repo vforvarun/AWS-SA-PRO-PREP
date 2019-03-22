@@ -134,7 +134,7 @@ Glacier:
         - Immutable: Can delete or overwrite but can't change once uploaded to Vault
         - Once the Vault Lock has been initiated have only 24 hours to change the mind, if not it becomes permanent.
 
-Amazon EBS:
+Amazon EBS: Elastic Block Storage
   - Think virtual hard drives
   - Can only be used with AZ
   - Tied to a single AZ: no multi AZ support
@@ -154,3 +154,25 @@ Amazon EBS:
     - Share data sets with other users or accounts
     - Migrate EC2 instances from one AZ or Region to another.
     - Convert unencrypted volume to encrypted
+    - Pay for the entire block rather than pay for what you use.
+    - Snapshots can be created, deleted or restored to point in time.
+    - First snapshot is full, and incremental in subsequent snapshots.
+    - All incremental snapshots contain only the blocks that changed.
+    - If an incremental snapshot is deleted, we lose the ability to restore to that point in time.
+    - If the first full snapshot is deleted, the EBS can still be fully restored using the incremental snapshots.
+
+Amazon EFS: Elastic File System
+  - Sun Microsystems created Network File System in 1984
+  - EFS is AWS's implementation of NFSv4
+  - Elastic storage capacity, and pay for what you use (in contrast to EBS)
+  - EFS is
+    - 3 times more expensive than EBS
+    - 20 times more expensive than S3
+  - Multi-AZ metadata and data storage
+  - Configure mount points in one or many AZs and mount from EC2 in any AZ.
+  - Can be mounted from on-premises systems only if using Direct Connect.
+    - EFS is very network intensive, works best over high speed connections.
+  - Alternatively, use EFS File sync agent locally on-premises and in the background sync to EFS
+
+Amazon Storage Gateway
+  - 
