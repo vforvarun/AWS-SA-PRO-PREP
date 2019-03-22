@@ -1,4 +1,5 @@
 Concepts
+
 - Data Persistence
     - Persistent Data Store
         - Data is Durable and sticks around after reboots, restarts and power cycles
@@ -35,7 +36,7 @@ Concepts
         - ACID is good for serial tasks, where as BASE is suitable for parallel tasks
         - ACID is not scalable, where as BASE is highly scalable
 
-- S3
+S3
   - One of the first services AWS introduced back in 2006.
   - Used in other AWS Services - directly or behind the scenes
   - Maximum object size is 5TB; largest object in a single PUT is 5GB
@@ -71,7 +72,7 @@ Concepts
         - Resource ACLs: Examples: Object ACL, Bucket Policy
         - User based: Examples: IAM Policies
         - MFA (optional): Before DELETE of objects.
-        - Flowchart:
+        - Authentication Flowchart:
           - Is the user account allowed to access me?
             - No: Get Lost
             - Yes:
@@ -172,7 +173,78 @@ Amazon EFS: Elastic File System
   - Configure mount points in one or many AZs and mount from EC2 in any AZ.
   - Can be mounted from on-premises systems only if using Direct Connect.
     - EFS is very network intensive, works best over high speed connections.
-  - Alternatively, use EFS File sync agent locally on-premises and in the background sync to EFS
+  - Alternatively, use EFS File sync agent locally on-premises and in the background to sync to EFS
 
 Amazon Storage Gateway
-  - 
+  - Virtual Machine that can be run on-premises with VMWare of HyperV
+  - Provides local storage resources backed by AWS S3 and Glacier
+  - Often used in DR preparedness to sync to AWS
+  - Useful in Cloud Migrations
+  - Modes of Operation
+    - File Gateway
+      - Old Name: None
+      - Interface: NFS, SMB
+      - Allows on-prem servers or EC2 instances to store objects in S3 via NFS or SMB mount point
+    -  Volume Gateway Stored Mode
+      - Old Name: Gateway-Stored Volumes
+      - Interface: iSCSI
+      - Async replication of on-prem data to S3
+      - All data is stored on-prem but copy of that is replicated and synced to S3 in the background.
+    - Volume Gateway Cached Mode
+      - Old Name: Gateway-Cached Volumes
+      - Interface: iSCSI
+      - Primary data stored in S3 with frequent access data cached locally on-prem.
+      - In a migration scenario, start with Stored Mode, sync all files to S3 and then switch to Cached mode to use S3 as primary source of data.
+    - Tape Gateway
+      - Old Name: Gateway-Virtual Tape Library
+      - Interface: iSCSI
+      - Virtual media changer and tape library for use with existing backup software
+  - Supports bandwidth throttling.
+
+Amazon Workdocs
+  - AWS's version of Google Drive or Dropbox
+  - Secure, fully managed file collaboration service
+  - Can integrate with AD for SSO
+  - Web, mobile and native Windows and Mac Clients (no linux support yet)
+  - HIPPA, PCI DSS and ISO compliant
+  - Available SDK for creating complementary apps.
+
+EC2 Databases
+  - Run any database with full control and flexibility
+  - Must manage everything like backups, redundancy, patching and scaling
+  - Good option
+    - if you require a database not yet supported by RDS, such as IBM DB2 or SAP HANA
+    - if is not feasible to migrated to AWS-managed DB
+
+Amazon RDS
+  - Managed database option for
+    - MySQL
+    - Maria
+    - PostgreSQL
+    - Oracle
+    - Microsoft SQL Server
+    - MySQL-compatible Aurora
+  - Best suited for structured, relational data store needs.
+  - Aims to be drop-in replacement for existing on-prem instances of same databases.
+  - Automated backups and patching in customer-defined maintenance windows.
+  - Push-button scaling, replication and redundancy
+  - Amazon RDS Anti-Patterns: RDS is not suitable for and alternatives
+    - Use S3 to store lots of Large Binary Objects (BLOBs)
+    - Use DynamoDB if
+      - Automated Scalablity is required
+      - Name/Value Data Structure
+      - Data is not well structured or unpredictable
+    - Use EC2 if
+      - Other DB plaforms like IBM DB2 or SAP HANA
+      - Complete control over the database
+  - Replication
+    - MultiAZ feature replicates the DB to different AZs for redundancy
+    - NOTE for MySQL: non-transactional storage engines like MyISAM don't support replication; use InnoDB (or Xtra DB on Maria)
+    - Read Replicas in the same region or a different region can be created to minimise the read loads on the RDS.
+    - Types
+      - Sync: in multiAZ RDS scenario, replication between Master and Standby DB is synchronous. Any change to the master DB is immediately synced to standby DB.
+        - In case of failure of the Master DB, standby can take over and also serve as master for read replicas
+      - Async: in read replica scenario, replication between master and read replica is asynchronous.
+        - In case of a region failure, a read replica in another region can be promoted to Master and continue to serve other read replicas.
+
+DynamoDB:
