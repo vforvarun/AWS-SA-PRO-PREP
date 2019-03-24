@@ -253,4 +253,4 @@ Concepts
     - Priced on throughput, rather than compute
     - Provision read and write capacity in anticipation of need.
     - Autoscale capacity adjusts per configured min/max levels.
-        - Invoking auto scaling 
+        - Invoking auto scaling
