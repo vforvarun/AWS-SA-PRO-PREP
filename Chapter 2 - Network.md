@@ -1,0 +1,88 @@
+- Pre-requisites
+    - Physical Layout of AZs and Regions
+    - VPC Concept and how to create
+    - Create private and public subnets
+    - What a NAT is and what "Disable source/destination checks" mean
+    - Route table and routing terminology (default routes, local routes)
+    - IPv4 Addressing and Subnet Mask notation (/16, /24, etc)
+    - Intermediate Networking Terminology (MAC Address, Port, Gateways vs Router)
+
+
+- Concepts
+    - OSI Model
+      - 1. Physical -> Cat 5, Fiber Optic Cable, 5GZ -> Bits -> Please
+      - 2. Data Link -> MAC Address -> Frame -> Do
+      - 3. Network -> IP, ARP -> Packet -> Not
+      - 4. Transport -> TCP -> Segment (TCP) / Datagram (UDP) -> Throw
+      - 5. Session -> Setup, Negotiation and Teardown -> Sausage
+      - 6. Presentation -> TLS/SSL, Compression -> Pizza
+      - 7. Application -> Web Browser -> Away
+    - AWS doesn't allow multicast
+      - Unicast: More like phone call. 1x1 conversation, no impact to anyone else on the line.
+      - Multicast: Shouting over a mega phone to everyone. Network card sending packets to everyone.
+    - TCP vs UDP vs ICMP
+      - TCP
+        - Connection-based, stateful, acknowledges receipt
+        - Analogy: After everything I say, I want you to confirm that you received it.
+        - Uses: Web, Email, File Transfer
+      - UDP
+        - Connectionless, stateless, simple, no retransmission delays
+        - Analogy: I'm going start talking and its OK if you miss some words.
+        - Uses: Streaming media, DNS.
+      - ICMP
+        - Generally by network devices to exchange info
+        - We routers can talk to each other about network health in our own language.
+        - traceroute, ping
+      - Ephemeral Ports
+        - Short-lived transport protocol ports used in IP communications
+        - Above the "well known" IP Port (above 1024)
+        - Also called as Dynamic Ports
+        - Suggested range is 49152 to 65535 but
+          - Linux Kernels generally use 32568 to 61000
+          - Windows platforms default from 1025
+        - There are some NACL and Security Group implications
+
+      - Simple Communication Scenario:
+        - Web Server on 192.168.1.2 waits for connections on Port 80
+        - Client on 192.168.1.6 initiates a connection to port 80 for a HTTP Session
+        - Server responds "Hello, this is Server"
+        - Client says "Hi, I'm client 6. You can use port 56784 to sent back what I request"
+        - Server responds "Ok, will do. Here's your webpage and I'll keep your session open"
+        - Client Requests another webpage
+        - Server responds "Hey, I know you, I'll send you the data over the existing session"
+
+      - AWS Availability Zones
+        - The Physical to Logical assignment of AZs is done at the Account level
+
+      - Network to VPC Connectivity
+        - AWS Managed VPN
+          - What: AWS managed IPsec VPN Connection over existing Internet Connection
+          - When: Quick and usually simple way to establish a secure tunneled connection to a VPC; Redundant link for Direct Connect or other VPC VPN
+          - Pros: Supports static routes or BGP Peering and routing
+          - Cons: Dependent on your Internet Connection
+          - How to create:
+            - On AWS side
+              - Create Virtual Private Gateway and attach to desired VPC
+              - Create Customer Gateway on AWS
+              - Create VPN Connection, linking Virtual Private Gateway with Customer Gateway
+              - Download Customer Gateway config
+            - On Customer side
+              - Configure router to connect to AWS VPN Connection
+              - Configure BGP routing (if needed)
+        - AWS Direct Connect
+          - What: Dedicated network connection over private lines into AWS backbone
+          - When: Require a "big pipe" into AWS; lots of resources and services being provided on AWS to corporate users
+          - Pros
+            - More predictable network performance
+            - Potential bandwidth cost reduction
+            - Up to 10GBps provisioned connections
+            - Supports BGP Peering and routing
+          - Cons: May require additional telcom and hosting provider relationships and/or new network circuits.
+          - How:
+            - Work with your existing Data Provider
+            - Create Virtual Interfaces (VIF) to connect to VPCs (Private VIF) or other AWS service like S3 or Glacier (Public VIF).
+
+        - AWS Direct Connect + VPN
+        - AWS VPN CloudHub
+        - Software VPN
+        - Transit VPC

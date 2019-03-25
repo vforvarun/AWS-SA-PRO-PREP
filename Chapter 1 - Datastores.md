@@ -253,4 +253,6 @@ Concepts
     - Priced on throughput, rather than compute
     - Provision read and write capacity in anticipation of need.
     - Autoscale capacity adjusts per configured min/max levels.
-        - Invoking auto scaling
+        - Auto scaling policies can commission additional read and write capacity, but will not scale down since it doesn't know what's the normal condition.
+        - Workarounds available, but doesn't work as expected all the time.
+    -
