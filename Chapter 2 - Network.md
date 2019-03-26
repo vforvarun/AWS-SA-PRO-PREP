@@ -86,3 +86,57 @@
         - AWS VPN CloudHub
         - Software VPN
         - Transit VPC
+
+      - Internet Gateways
+        - Horizontally scaled, redundant and highly available component that allows communication between the VPC and the Internet.
+        - No availability risk or bandwidth constraints
+        - If the subnet is associated with a route to the Internet, then it is a public subnet
+        - Support IPv4 and IPv6
+        - Serves two purposes
+          - Provide route table target for Internet-bound traffic
+          - Perform NAT for instances with public IP addresses. It does not perform NAT for instances with Private IP's only.
+      - Egress only Internet Gateways
+        - For IPv6 Only,  IPv6 addresses are globally unique and are therefore public by default
+        - Provides outbound Internet access for IPv6 addressed instances.
+        - Prevents inbound Internet access to those IPv6 instances.
+        - Stateful - forwards traffic from instance to internet and then sends back the response.
+        - Must create a custom route for ::/0 to the Egress-Only Internet Gateway
+        - Use Egress-Only Internet Gateway instead of NAT for IPv6
+      - NAT Instance
+        - EC2 instance from a special AWS-provided AMI
+        - Translate traffic from many private IP instance to a single public IP and back
+        - Doesn't allow public internet initiated connections into private instances
+        - Not supported for IPv6 (use Egress-Only Gateway)
+        - NAT Instance must live on a public subnet with a route to Internet Gateway
+        - Private Instances in a private subnet must have route to the NAT instance, usually the default route destination of 0.0.0.0/0
+      - NAT Gateway
+        - Fully-managed NAT service that replaces the need for NAT Instance on EC2
+        - Must be created in a Public Subnet
+        - Uses an Elastic IP for public IP for the life of the gateway
+        - Private instances in a private subnet must have route to the NAT instance, usually default route destination of 0.0.0.0/0
+        - Created in specified AZ with redundancy in that zone.
+        - For multi-AZ redundance, create NAT Gateways in each AZ with routes for private subnets to use the local Gateway.
+        - Up to 5Gbps bandwidth that can scale up to 45 5Gbps
+        - Can't use a NAT Gateway to access VPC peering, VPN or Direct Connect, so be sure to include specific routes to those in your route table (always most specific route is selected first)
+      - NAT Instance vs Gateway
+        - Availability
+          - NAT Gateway: Highly available within AZ
+          - NAT Instance: On your own
+        - Bandwidth
+          - NAT Gateway: Up to 45 Gbps
+          - NAT Instance: Depends on bandwidth of instance type
+        - Maintenance
+          - NAT Gateway: Managed by AWS
+          - NAT Instance: On your own
+        - Performance
+          - NAT Gateway: Optimized for NAT
+          - NAT Instance: Amazon Linux AMI configured to perform NAT
+        - Public IP
+          - NAT Gateway: Elastic IP that cannot be detached
+          - NAT Instance: Elastic IP that can be detached
+        - Security Groups
+          - NAT Gateway: Cannot be associated with NAT Gateway
+          - NAT Instance: Can use Security Groups
+        - Bastion Server
+          - NAT Gateway: Not Supported
+          - NAT Instance: Can be used as bastion server
