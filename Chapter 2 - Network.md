@@ -140,3 +140,25 @@
         - Bastion Server
           - NAT Gateway: Not Supported
           - NAT Instance: Can be used as bastion server
+      - Routing
+        - VPC Context
+          - Route Tables
+            - VPCs have an implicit router and main route table
+            - Main routing table can be modified or new tables can be created
+            - Each route table contains a local route for the CIDR block
+            - Most specific route for an address wins
+          - Border Gateway Protocol
+            - Popular routing protocol for the Internet
+            - "Propagates" information about the network to allow for dynamic routing
+            - Required for Direct Connect and optional for VPN
+            - Alternative of not using BGP with AWS VPC is static routes
+            - AWS supports BGP community tagging as a way to control traffic scope and route preference
+            - Required TCP port 179 + ephemeral ports
+            - Autonomous System Number (ASN) = Unique endpoint identifier
+            - Weighting is local to the router and higher weight is preferred path for outbound traffic
+        - Enhanced Networking
+          - Generally used for High Performance Computing use-cases
+          - Uses single root I/O virtualisation (SR-IOV) to deliver higher performance than traditional virtualised network interfaces
+          - Might have to install driver if other than Amazon Linux HVM AMI
+          - Intel 82599 VF Interface: 10 Gbps
+          - Elastic Network Adapter: 25 Gbps  
