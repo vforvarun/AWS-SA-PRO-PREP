@@ -161,4 +161,34 @@
           - Uses single root I/O virtualisation (SR-IOV) to deliver higher performance than traditional virtualised network interfaces
           - Might have to install driver if other than Amazon Linux HVM AMI
           - Intel 82599 VF Interface: 10 Gbps
-          - Elastic Network Adapter: 25 Gbps  
+          - Elastic Network Adapter: 25 Gbps
+      - Route 53
+        - Register domain names
+        - Check the health of domain resources
+        - Route internet traffic for the domain
+        - Pre-requisites
+          - What is DNS?
+          - DNS record types (A, CNAME, MX, TXT, etc)
+          - Route 53 concepts (alias, hosted zone etc)
+          - Why is it called Route 53? Because the DNS port is 53
+        - Route53 routing policies
+          - Simple: Simple, here is the destination for that name. Name -> IP Address
+          - Failover: Normally, I'd route to <Primary>, but it appears down based on health checks, so, will failover to <Backup>
+          - Geolocation: Looks like the request is from Europe, so, route to a resource closer to Europe.
+          - Geoproximity: close to US-EAST-1 than US-EAST-2, so routing to US-EAST-1
+            - Bias (-99 to +99) can influence the result. Positive or Negative bias.
+          - Latency: route the requests to a lower latency path to the resource
+            - Is different from Geolocation. If a request is coming from US-EAST-1 tp Europe, if the latency to the servers in Europe is higher than that of US, then ther request will still be send to US-EAST-1
+          - Multivalue Answer: return several IP address, kind of like a basic load balancer.
+            -
+          - Weighted: Setup multiple resources and routing is based on percentage of weight assigned to each resource
+            - 0 weight - disable traffic
+            - Weight values can have values ranging from 0 - 255
+            - Percentage of traffic = Weight for a specified record/Sum of all weights for all records
+            - For eg.
+              - If E1=10 and E2=10, then E1%=50 and E2%=50
+              - If E1=250 and E2=101, then E1%=71.2 and E2%=28.8
+              - If E1=0 and E2=1, then E1%=0 and E2%=100
+              - If E1=11 and E2=10, then E1%=52.3 and E2%=47.6
+            - Used for Blue/Green deployments
+          
