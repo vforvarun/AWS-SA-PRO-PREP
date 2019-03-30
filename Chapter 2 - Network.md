@@ -217,3 +217,87 @@
                     - Server Name Identification (SNI) allows the client to specify which host it is trying to connect to and the server can present multiple certificates on the same IP address. So, the client is asking for the correct certificate and the server CloudFront in this case is presenting it. One downside of using SNI is that a few old browsers don't support it.
                 - Security Policy
                     - Specify what SSL or TLS versions CloudFront supports.
+          - Elastic Load Balancers
+            - Distributes inbound connections to backend endpoints
+            - Three different options
+              - Application Load Balancer (Layer 7, Application Layer)
+                - ALB works at a higher level, it works at the Application Layer
+                - Protocols: HTTP, HTTPS
+                - Path or Host-based routing: Yes
+                  - Can route based on the Path in the URL
+                  - If https://www.example.com/customer, then the incoming request can be directed to backend servers which are dedicated to serving customer based requests.
+                  - If https://www.example.com/login, then the incoming request can be directed to backend servers which are dedicated to serving login requests.
+                - SSL Offloading: Yes
+                - Server Name Identification (SNI): Yes
+                - Sticky Sessions: Yes
+                  - Maintains the client sessions to maintain continuity.
+                - Static IP/Elastic IP: No
+                - User Authentication: Yes
+              - Network Load Balancer (Layer 4, Transport Layer)
+                - this should be used when speed matters.
+                - Example: If an incoming file upload request is directed at Port 22 (scp), then the request can be distributed to worker servers, which process the incoming file and may be upload to Dyanmo DB.
+                - Protocols: TCP
+                - Path or Host-based routing: No
+                - SSL Offloading: No
+                - Server Name Identification (SNI): No
+                - Sticky Sessions: No
+                - Static IP/Elastic IP: Yes
+                - User Authentication: No  
+              - Classic Load Balancer (Layer 7 or Layer 4)
+                - Protocols: TCP, SSL, HTTP, HTTPS
+                - Path or Host-based routing: No
+                - SSL Offloading: Yes
+                - Server Name Identification (SNI): No
+                - Sticky Sessions: Yes
+                - Static IP/Elastic IP: No
+                - User Authentication: No
+            - Can be used for both Private and Public workloads
+            - AWS recommends using NLB or ALB. CLB is being phased out.
+        - Exam tips
+          - VPC
+            - Know the pros and cons of each On-prem to AWS connection modes (VPN, Direct Connect)
+            - Know the functions of different VPC Components (Customer Gateway, Virtual Private Gateway)
+            - Know that Direct Connect is not inherently redundant, so know how to architect a network that *is* (VPN or secondary Direct Connect)
+            - Multicast and Broadcast is not supported. Reason: they are a layer 2 item.
+            - Know what is meant by "stateless", "stateful", "connectionless", and "connection based" in terms of IP protocols
+            - Know what ephemeral ports are and why they might need to be open in NACLs or SGs
+          - Routing
+            - Understand BGP and how to use weighting to shift network traffic
+            - Know how routes in a route table are prioritized (most specific first)
+            - What other routing protocols does AWS support (one, only BGP, otherwise static routes)
+          - VPC Peering
+            - CIDR ranges cannot overlap.
+            - After VPC owner accepts a peering request, routes must be added to respective route tables
+            - Transitive peering is not supprorted, but mesh or hub-and-spoke architectures are.. with proper NACLs and routes
+            - A Transit VPC is supported
+          - Internet Gateway
+            - Difference between NAT instance and NAT gateway
+            - Internet Gateway is horizontally scaled, redundant, with no bandwidth constraints
+            - NATs do have bandwidth constraints but...
+            - VPCs can have multiple NATs across AZs and subnets for scale - as long as routes are defined properly.
+            - Use Egress-only Gateway for IPv6
+          - Route 53
+            - Understand different types of routing policies and use cases
+            - Know weighted formula
+            - Route 53 is a global service
+          - CloudFront
+            - Understand what must happen to setup a custom domain
+            - Understand what SNI enables and the necessary alternative
+          - Elastic Load Balancer
+            - Know the three different types of Load Balancers and at which OSI Layer they work
+            - Understand which major features each deliver (protocol, SNI, Sticky Sessions, SSL offloading)
+            - Know what sticky sessions are and when they come into play
+          - Read White Papers
+            - AWS VPC Connectivity Options: https://d0.awsstatic.com/whitepapers/aws-amazon-vpc-connectivity-options.pdf
+            - Integrating AWS with Multiprotocol Label Switching: https://d1.awsstatic.com/whitepapers/Networking/integrating-aws-with-multiprotocol-label-switching.pdf
+            - Overview of AWS Network Security: https://d1.awsstatic.com/whitepapers/Security/Networking_Security_Whitepaper.pdf
+          - Watch videos
+            - Networking many VPCs: Transit and Shared Architecture: https://www.youtube.com/watch?v=KGKrVO9xlqI
+            - Another day, Another billion flows: https://www.youtube.com/watch?v=8gc2DgBqo9U
+            - Deep Dive into the new Network Load Balancer: https://www.youtube.com/watch?v=z0FBGIT1Ub4
+        - Pro Tips
+          - Direct Connect may be a more complex and costlier option to setup but it could save big on bandwidth costs.
+          - Explicitly deny as much traffic as possible with NACLs and SG - Principle of Least Privilege
+          - Think through the VPC layout (watch video Networking many VPCs: Transit and Shared Architecture)
+          - Route 53 can be used even if AWS is not the main domain registrar.
+          - ELBs provide a useful layer of abstraction (as does Route 53 too!)
