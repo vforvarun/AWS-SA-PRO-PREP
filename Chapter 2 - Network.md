@@ -191,4 +191,29 @@
               - If E1=0 and E2=1, then E1%=0 and E2%=100
               - If E1=11 and E2=10, then E1%=52.3 and E2%=47.6
             - Used for Blue/Green deployments
-          
+        - CloudFront
+          - Distributed content delivery service for simple static asset caching up to 4k live and on-demand video streaming
+          - Pre-requisites
+            - How to create CloudFront distribution
+            - Understand Edge location concept
+          - Integrated with Amazon Certificate Manager and supports SNI (Server Name Identification)
+          - SSL, TLS and SNI
+            - SSL and TLS:
+              - 1995: SSL v2 was the first public release of SSL by Netscape
+              - 1996: SSL v3 released to fix some security design flaws.
+              - 1999: TLS v1.0 with SSL backwards
+              - 2004: SSL v3 considered insecure due to POODLE attack vulnerability
+              - 2005: TLS v1.1
+              - 2008: TLS v1.2
+              - Present: TLS 1.3 currently in working draft specification
+            - Default CloudFront SSL certificate can be used, but if custom domain  is being used to serve the data then we need to use a custom certificate.
+              - This certificate can be generated using the AWS Certificate Manger or it can be purchased from a 3rd Party vendor and uploaded to IAM.
+              - A wild card certificate is good for any of the sub-domains. For eg., \*.example.com is good for www.example.com or cdn.example.com
+              - There is one problem with this approach.
+                - One of SSL's main functions is to guarantee that the website is legitimate.
+                - It does it by making sure that the domain name of the server matches with the cert otherwise a warning is displayed in the browser.
+                - CloudFront is a shared service, the host machines behind CloudFront will be serving up all sorts of content and SSL certificates. There are two ways to get around this issue.
+                    - Pay for a dedicated IP address for each edge location. This dedicated IP address would serve up the required content using the certificate that has been applied.
+                    - Server Name Identification (SNI) allows the client to specify which host it is trying to connect to and the server can present multiple certificates on the same IP address. So, the client is asking for the correct certificate and the server CloudFront in this case is presenting it. One downside of using SNI is that a few old browsers don't support it.
+                - Security Policy
+                    - Specify what SSL or TLS versions CloudFront supports.
