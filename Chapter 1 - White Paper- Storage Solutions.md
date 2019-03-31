@@ -1,0 +1,47 @@
+AWS Storage Options
+  - S3
+    - provides Developers and IT teams secure, durable, highly scalable, object storage at very low cost.
+    - Any amount of data can be retrived from anywhere via the internet
+    - A single object size is limited to 5TB
+    - Highly scalable and allows concurrent read and write access to data by many separate clients or applications.
+    - Storage Classes
+      - S3 Standard: for general purpose storage of frequently used data
+      - S3 Standard-Infrequent Access: for long-lived but less frequently used data
+      - Glacier: for low-cost archival
+    - Usage Patterns
+      - Store and distribute static web content and media
+        - Direct URL to files
+        - Can serve as origin store for CDN such as CloudFront
+        - Can handle demand spikes because of S3's elastic feature
+        - no storage provisioning required and is best suit for high traffic websites and data intensive websites
+      - S3 is used to store entire static websites
+      - S3 is a data store for computation and large scale analytics.
+      - Highly durable, scalable and secure solution for backup and archiving of critical data.
+    - Anti Patterns: S3 doesn't suit all storage situations
+      - Filesystem: Use EFS instead
+      - Structured data with query: Amazon RDS, DynamoDB, CloudSearch
+      - Rapidly changing data: EBS, EFS, DynomoDB, RDS
+      - Archival Data: Glacier
+      - Dynamic Website hosting: EC2, EFS
+    Performance:
+      - Speed
+        - S3 to EC2 instance is designed to be very fast
+        - Server-side latencies are insignificant compared to internet
+      - Multi-part upload
+        - To improve upload performance of large objects, multi-part upload option should be used.
+        - S3 assembles all the parts after it receives it all.
+        - Upload multiple parts in parallel. Retry Uploading smaller objects rather than entire object
+      - Transfer Acceleration
+        - S3 Transfer acceleration enables fast, easy and secure transfer of files over long distances.
+        - Leverages global network of CDN, CloudFront over an optimized network path.
+        - Enable on S3 bucket and then S3 PUT and GET requests should be modified to use S3-accelarate end point domain name (bucketname.s3.accelerate.amazonaws.com). Performance improvement seen in excess of 500%.
+    Durability and Availability
+          - 
+
+  - Glacier
+  - EFS
+  - EBS
+  - EC2 Instance Storage
+  - Sorage Gateway
+  - Snowball
+  - CloudFront

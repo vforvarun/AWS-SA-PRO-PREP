@@ -1,0 +1,92 @@
+*Security Module*
+
+Concepts
+
+- Shared Responsibility Model
+- Principle of Least Privileges
+  - Giving users (or services) nothing more than those privileges required to perform their intended function (and only when they need it)
+- Security Facets
+  - Identity
+    - Who are you?: Root Account user, IAM User, Temporary Security Credentials
+  - Authentication
+    - Prove that you're who you say you're: Multi-factor, Client-Side SSL certificate
+  - Authorisation
+    - Are you allowed to do this?: IAM Policies
+  - Trust
+    - Do other entities that I trust say they trust you?: Cross Account Access, SAML-based Federation, Web Identity Federation
+- Typical Components
+  - Identities: People, Objects, Other Computers etc
+  - Identity Providers
+    - Identity Store (Directory): Stores the identities and some metadata about those identities
+    - Identity Broker: Take requests from the identities or the application and run those up against the identity store
+      - Federation
+        - The identity broker can reach out other identity providers such as Facebook, Google, Cognito etc.
+        - Once the identity provider is able to make a positive match, they return some sort of token or key which allows the identity access the service it is trying to access.
+    - Identity Flow
+      - User Agent -> Give me access -> Service Provider
+      - Service Provider -> Go ask identity provider -> User Agent
+      - User Agent -> I was sent by the service provider -> Identity Provider
+      - Identity Provider -> Give me Authentication -> User Agent
+      - User Agent -> Here you go (username/password or SSL certificate) -> Identity Provider
+      - Identity Provider -> This person is good. Let them in -> Service Provider
+      - Service Provider -> OK, come on in -> User Agent
+- SAML 2.0
+  - Can handle both Authentication and Authroisation
+  - XML-based protocol
+  - Can contain user, group membership and other useful information
+  - Assertions in the XML for authentication, attributes or Authorisation
+  - Best suited for SSO for enterprise users  
+- OAuth 2.0
+  - Allow sharing of protected assets without having to send login credentials
+  - Handles Authroisation only, not Authentication
+  - Issues token to client
+  - Application validates token with Authorisation server
+  - Delegates access, allowing client application to access information on users behalf
+  - Best suited for API authentication between apps
+- OpenID connect
+  - Identity layer built on top of OAuth 2.0 adding Authentication
+  - Uses REST/JSON message flows
+  - Supports web, mobile and javascript clients
+  - Extensible
+  - Best suited for SSO for public consumer
+
+- Compliance
+  - AWS has implemented certain processes, practices, and standards as prescribed by many national and international standards bodies.
+  - All certification documents are available under AWS Artifacts. NDA required to be signed with AWS to access these documents.
+    - CSA
+    - ISO 9001, 27001, 27107, 27018
+    - PCI DSS Level 1
+    - SOC 1: Audit Controls Report
+    - SOC 2: Security Availability and Confidentiality Report
+    - SOC 3: General Controls Report
+
+- Multi-Account management
+  - Most organisations will have multiple accounts
+  - Common reasons to have multiple accounts
+    - Segregation of duties
+    - Cost Allocation
+    - Increased agility
+  - Need methods to properly manage and maintain them
+  - When should the multiple accounts to be used?
+    - Do you require administrative isolation between workloads?
+    - Do you require limited visibility and discoverability of workloads?
+    - Do you require isolation to minimise "blast radius"?
+    - Do you require strong isolation of recovery and/or auditing data?
+  - Tools for Account Management
+    - AWS Organisations
+      - Way to manage multiple organisations in a hierarchical fashion from AWS console
+    - Service Control Policies
+      - Policies to restrict sub-accounts to restrict activities
+    - Tagging
+    - Resource Groups
+    - Consolidated Billing
+  - Account Structures
+    - Identity Account Structure
+      - Manage all the accounts in one location
+      - Users trust relationship from IAM roles in sub-accounts to Identity Account to grant temporary access
+      - Variations include by Business Unit, Deployment Environment, Geography etc.
+    - Logging Account Structures
+      - Centralised Logging Repository
+      - Can be secured so as to be immutable
+      - Can use Service Control Policies to prevent sub-accounts from changing logging settings
+    
