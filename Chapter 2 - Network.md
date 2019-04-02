@@ -288,13 +288,19 @@
             - Understand which major features each deliver (protocol, SNI, Sticky Sessions, SSL offloading)
             - Know what sticky sessions are and when they come into play
           - Read White Papers
-            - AWS VPC Connectivity Options: https://d0.awsstatic.com/whitepapers/aws-amazon-vpc-connectivity-options.pdf
-            - Integrating AWS with Multiprotocol Label Switching: https://d1.awsstatic.com/whitepapers/Networking/integrating-aws-with-multiprotocol-label-switching.pdf
-            - Overview of AWS Network Security: https://d1.awsstatic.com/whitepapers/Security/Networking_Security_Whitepaper.pdf
+            - AWS VPC Connectivity Options
+              - https://d0.awsstatic.com/whitepapers/aws-amazon-vpc-connectivity-options.pdf
+            - Integrating AWS with Multiprotocol Label Switching
+              - https://d1.awsstatic.com/whitepapers/Networking/integrating-aws-with-multiprotocol-label-switching.pdf
+            - Overview of AWS Network Security
+              - https://d1.awsstatic.com/whitepapers/Security/Networking_Security_Whitepaper.pdf
           - Watch videos
-            - Networking many VPCs: Transit and Shared Architecture: https://www.youtube.com/watch?v=KGKrVO9xlqI
-            - Another day, Another billion flows: https://www.youtube.com/watch?v=8gc2DgBqo9U
-            - Deep Dive into the new Network Load Balancer: https://www.youtube.com/watch?v=z0FBGIT1Ub4
+            - Networking many VPCs: Transit and Shared Architecture
+              - https://www.youtube.com/watch?v=KGKrVO9xlqI
+            - Another day, Another billion flows
+              - https://www.youtube.com/watch?v=8gc2DgBqo9U
+            - Deep Dive into the new Network Load Balancer 
+              - https://www.youtube.com/watch?v=z0FBGIT1Ub4
         - Pro Tips
           - Direct Connect may be a more complex and costlier option to setup but it could save big on bandwidth costs.
           - Explicitly deny as much traffic as possible with NACLs and SG - Principle of Least Privilege

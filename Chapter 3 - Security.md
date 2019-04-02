@@ -85,8 +85,248 @@ Concepts
       - Manage all the accounts in one location
       - Users trust relationship from IAM roles in sub-accounts to Identity Account to grant temporary access
       - Variations include by Business Unit, Deployment Environment, Geography etc.
-    - Logging Account Structures
+    - Logging Account Structure
       - Centralised Logging Repository
       - Can be secured so as to be immutable
       - Can use Service Control Policies to prevent sub-accounts from changing logging settings
-    
+    - Publishing account Structure
+      - Common repository for AMI's, Containers and Code
+      - Permits sub-accounts to use pre-approved standardized services or assets
+        - Hardened AMIs
+        - ECR
+        - CodeCommit Repository
+    - Central IT Account Structure
+      - IT can manage IAM users and groups while assigning to sub-account roles
+      - IT can provide shared services and standardized assets (AMIs, databases, EBS etc) that adhere to corporate policy.
+- Network Controls and Security Groups
+  - Security groups
+    - Virtual Firewalls for individual assets such as EC2, RDS, AWS Workspaces etc.
+    - Controls inbound and outbound traffic for TCP, UDP, ICMP and custom protocols
+    - Work based on a single Port or Port ranges
+    - Security groups are stateful. If inbound is specified on a particular port, no outbound is required.
+    - Inbound rules are by Source IP, Subnet or other security groups
+    - Similarly, Outbound rules are by Destination IP, Subnet or other security groups
+    - Remember Ephemeral Ports for Outbound if needed
+  - Network Access Control Lists
+    - Additional layer of security for VPC that acts as a firewall
+    - Apply to entire subnet rather than individual assets
+    - Default NACL allows all inbound and outbound traffic
+    - NACLs are stateless - meaning outbound traffic simply obeys outbound rules - no connection is maintained
+    - Can duplicate or further restrict access along with Security Groups
+    - Remember Ephemeral ports for Outbound if needed
+  - Why use NACLs and Security Groups together?
+    - NACL's provide a backup method of security if the SG is configured as too permissive
+    - Covers the entire subnet so users to create new instances and fail to assign a proper SG are still protected
+    - Part of multi-layer Least Privilege concept to explicitly allow/deny
+- AWS Directory Services
+  - AWS Cloud Directory
+    - Cloud-native directory to share and control access to hierarchical data between applications
+    - Designed to used by applications that need hierarchical data with complex relationships
+  - Amazon Cognito
+    - Sign-up and Sign-in functionality that scales to millions of users and federated to public social media servers
+    - Can be used in the development of consumer apps or SaaS
+  - AWS Directory Service for Microsoft Active Directory
+    - AWS-managed full Microsoft AD (standard or enterprise) running on Windows Server 2012 R2
+    - Can be used by want hosted Microsoft AD or need LDAP for Linux apps
+  - AD Connector
+    - Allows on-premises users to log into AWS services with their existing AD credentials. Also allows EC2 instances to join the AD domain
+    - Provides Simple user directory and LDAP compatibility
+  - Simple AD
+    - Low scale, low cost AD implementation based on Samba
+    - Simple user directory and LDAP compatibility
+  - AD Connector vs Simple AD
+    - AD Connector
+      - Must have existing AD
+      - Existing AD users can access AWS assets via IAM roles
+      - Supports MFA via existing RADIUS-based MFA infrastructure
+    - Simple AD
+      - Simple standalone AD based on Samba
+      - Supports user accounts, groups, group policies and domains
+      - Kerberos-based SSO
+      - MFA not supported
+      - No Trust relationships
+- Credentials and Access Management
+  - Pre-requisites
+    - Know what IAM is and components
+    - Users, Groups and Policies
+    - Resource-based Policies vs Identity-based policies
+    - Know how to write and read policies in JSON
+    - Services -> Actions -> Resources
+  - Security Token Service (STS)
+    - Temporarily grant credential access to users or applications
+    - The credentials can be sourced via Identity Providers such as IAM, Microsoft AD, Facebook or Google.
+    - Service Flow
+      - Application -> Identity Broker
+      - Identity Broker -> Authenticate against Active Directory or any federated identity providers (cognito, facebook, google etc).
+      - Identity Broker -> Fetches Authroisations
+      - Identity Broker -> Talks to STS and gets a Token to represent the Authentication and Authroisation.
+      - STS -> hands the token to Application for it to be able to access various AWS services if that original account had access.
+    - Example: Google Sign-in
+      - AWS provides Web Identity Playground.
+    - Token Vending Machine
+      - Common way to issue temporary credentials for mobile development
+      - Anonymous TVM - Used as a way to provide access to AWS services only, does not store user identity.
+      - Identity TVM - Used for registration and login, and Authroisations
+      - AWS now recommends that mobile developers use Cognito and the related SDK
+    - AWS Secrets Manager
+      - Store passwords, encryption keys, API keys, SSH keys, PGP keys
+      - Alternative to storing passwords or keys in a "vault" (software or physical)
+      - Can access secrets via API with fine-grained access control provided by IAM
+      - Automatically rotate RDS database credentials for MySQL, PostgreSQL and Aurora
+      - Better than hard-coding credentials in scripts or application
+    - Encryption
+      - Encryption at Rest
+        - Data is encrypted were it is stored such as on EBS, on S3, in an RDS database, or in an SQS queue waiting to be processed
+      - Encryption in Transit
+        - Data is encrypted as it flows through network or processes such as SSL/TLS for HTTPS, or with IPSec for VPN Connections.
+      - Key Management Service
+        - Key Storage, management and auditing
+        - Tightly integrated into many AWS services such as Lambda, S3, EBS, EFS, DynamoDB, SQS, etc.
+        - Import our own keys or have KMS generate them
+        - Control who manages and accesses them via IAM users and roles
+        - Audit use of keys via CloudTrail
+        - Differs from Secrets Manager as its purpose-built for Encryption and Key Management
+        - Validated by many compliance schemes (PCI DSS Level 1, FIPS, 140-2 Level 2)
+    - CloudHSM
+      - Dedicated hardware device, Single Tenanted
+      - Must be within a VPC and can access via VPC peering
+      - Does not natively integrated with many AWS Services like KMS, but rather requires custom application scripting
+      - Offload SSL from web servers, act as an issuing CA, enable TDE for Oracle Databases
+      - Two versions of CloudHSM
+        - Classic CloudHSM
+          - Based on safenet Luna SA
+          - Upfront cost required ($5000)
+          - Have to buy a second device for HA
+          - FIPS 140-2 Level 2 compliant
+        - Current CloudHSM
+          - Based on AWS proprietary technology
+          - No upfront costs, pay per hour
+          - Clustered by design for HA
+          - FIPS 140-2 Level 3 compliant
+    - CloudHSM vs AWS KMS
+      - CloudHSM
+        - Tenancy: Single-Tenant HSM
+        - Availability: Customer-managed durability and availability
+        - Root of Trust: Customer managed root of trust
+        - FIPS 140-2: Level 3
+        - 3rd Party Support: Broad 3rd Party Support
+      - AWS KMS
+        - Tenancy: Multi-Tenant AWS Service
+        - Availability: Highly available and durable key storage and management
+        - Root of Trust: AWS managed root of trust
+        - Level 2 / Level 3 in some areas
+        - Broad AWS Service Support
+    - AWS Certificate Manager
+      - Managed Service that lets you provision, manage and deploy public or private SSL/TLS certificates
+      - Directly integrated into many AWS services such as CloudFront, ELB and API Gateway
+      - Free public certificates to use with AWS services; no need to register via a 3rd Party certificate authority, but 3rd Party Certificates can be imported.
+      - Supports wildcard domains to cover all the sub-domains.
+      - Managed certificate renewal
+      - Can create a managed Private Certificate Authority as well as internal or proprietary apps, services or devices
+- Distributed Denial of Service Attacks
+  - DDoS attack was demostrated publically by Con Smith in 1997
+  - DDoS is a way of hitting the target with flood of HTTP GET packets to drain the server of its resources and eventually shutdown.
+  - NTP MONLIST Example    
+  - Mitigating DDoS by using the following Best Practices
+    - Minimize attack surface: NACLs, SGs, VPC design
+    - Scale to absorb attack: Auto-Scaling groups, AWS CloudFront, Static Web Content via S3
+    - Safeguard exposed resources: Route 53, AWS WAF, AWS Shield
+    - Learn Normal Behavior: AWS GuardDuty, CloudWatch
+    - Above all, have a plan in place to know what to do when there is a DDoS attack is in progress
+- Intruder Prevention and Detection
+  - Intruder Detection System
+    - Watches the network and systems for any suspicious activity that might indicate someone trying to compromise a system
+  - Intruder Prevention System
+    - tries to prevent exploits by sitting behind firewalls and scanning and analyzing suspicious content for threats
+  - Normally comprised of a Collection/Monitoring system and monitoring agents on each of system
+  - Logs collected are analyzed in CloudWatch, S3 or third party SIEM tools such as Splunk, SumoLogic etc.
+  - CloudWatch vs CloudTrail
+    - CloudWatch
+      - Log events across AWS Services; think operations
+      - Higher-Level comprehensive Monitoring and Eventing
+      - Log from multiple accounts
+      - Logs are stored indefinitely
+      - Alarms history for 14 days
+    - CloudTrail
+      - Log API activity across AWS Services; think activity
+      - More low-level granular
+      - Log from multiple accounts
+      - Logs stored to S3 or CloudWatch indefinitely
+      - No native alarming; Can use CloudWatch alarms
+- Service Catalog
+  - Framework allowing administartors to create pre-defined products and landscapes for the users
+  - Granular control over which products the users can access
+  - Makes use of adopted IAM roles so users don't need underlying service access
+  - Allows end users to be self-sufficient while upholding enterprise standards for deployments
+  - Based on CloudFormation Templates
+  - Administrators can version and remove products. Existing running product versions will not be shutdown.
+  - AWS Service Catalog Constraint
+    - Type: Launch Constraint
+      - What: IAM role that Service Catalog assumes when an end user launches the product
+      - Why: Without a lunch constraint, the end-user must have all permissions needed within their own IAM credentials.
+    - Type: Notification constraint
+      - What: Specifies the SNS topic to receive notifcations about Stack Events
+      - Why: Can get notification when products are launched or have problems
+    - Template constraints
+      - What: When one or more rules that narrow allowable values an end-user can select
+      - Why: Adjust product attributes based on user choice (Only allow certain instance types for DEV Environment)
+Exam Tips:
+  - Multi-Account management
+    - Know the difference between models and best practices for cross-account management of security
+    - Know how roles and trusts are used to create cross-account relationships and authorisations
+  - Network Controls and Security Groups
+    - Know the differences and capabilities of NACLs and SGs
+    - NACLs are stateless
+    - Get some hands-on with NACLs and SGs to reinforce the knowledge
+    - Remember the Ephemerals
+  - AWS Directory Services
+    - Understand the types of Directory Services offer by AWS - especially AD Connector and Simple AD
+    - Understand the use-cases for each type of Directory Service
+    - Be familiar with how on-prem Active Directory implementation might connect to AWS and what functions that might enable.
+  - Credential and Access Management
+    - Know IAM and its components
+    - Know how to read and write IAM policies in JSON.
+    - Understand Identity Brokers, Federation and SSO.
+    - Know options and steps for temporary authorisation
+   - Encryption
+    - Know the differences between AWS KMS and CloudHSM and use cases
+    - The exam will like be restricted to the "Classic" CloudHSM
+    - Understand AWS Certificate Manager and how it integrates with other AWS services
+  - DDoS Attacks
+    - Understand what they are and some best practices to limit your exposure
+    - Know some options to mitigate them using AWS services
+  - IDS/IPS
+    - Understand the difference between IDS and IPS
+    - Know what AWS services can help with each
+    - Understand the differences between CloudWatch and CloudTrial
+  - Service Catalog
+    - Know that it allows users to deploy assets through inherting rights
+    - Understand how Service Catalog can work in a multi-account scenario
+  - Read Whitepapers
+    - AWS Security Best Practices
+      - https://d1.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+    - AWS Multi-account strategy
+      - https://d1.awsstatic.com/aws-answers/AWS_Multi_Account_Billing_Strategy.pdf
+    - AWS Best Practices for DDoS resiliency
+      - https://d1.awsstatic.com/whitepapers/Security/DDoS_White_Paper.pdf
+    - Collection of AWS Whitepapers on Security
+      - https://aws.amazon.com/whitepapers/#security
+  - Watch Videos
+    - Best Practices for Managing Security Operations on AWS
+      - https://www.youtube.com/watch?v=gjrcoK8T3To
+    - IAM Policy Ninja
+      - https://www.youtube.com/watch?v=aISWoPf_XNE
+    - Security Anti-patterns: Mistakes to avoid
+      - https://www.youtube.com/watch?v=tzJmE_Jlas0
+    - Architecting Security and Governance Across a Multi-Account Strategy
+      - https://www.youtube.com/watch?v=71fD8Oenwxc
+    - Cloud Adoption Framework
+      - https://www.youtube.com/watch?v=QBhcpBF-nvY
+- Pro Tips
+  - Know that security will be front-of-mind for every client evaluating the cloud.. but rarely are there sound processes in place.
+  - Acknowledge concerns and be ready with a process (Cloud Adoption Framework is a good start)
+  - Leverage assessments and checklists as illustrators of care and best-practice
+  - Migrating to the cloud is often more secure than on-prem ue to increased transparency and visibility
+  - Speak in terms of risk as a continuum rather and absolute.
+  - Consider AWS Certificate Security - Specialty or any other industry standard certificate (CCSP)
+   
