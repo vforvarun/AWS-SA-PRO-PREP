@@ -254,7 +254,7 @@ Concepts
       - Logs stored to S3 or CloudWatch indefinitely
       - No native alarming; Can use CloudWatch alarms
 - Service Catalog
-  - Framework allowing administartors to create pre-defined products and landscapes for the users
+  - Framework allowing administrators to create pre-defined products and landscapes for the users
   - Granular control over which products the users can access
   - Makes use of adopted IAM roles so users don't need underlying service access
   - Allows end users to be self-sufficient while upholding enterprise standards for deployments
@@ -265,7 +265,7 @@ Concepts
       - What: IAM role that Service Catalog assumes when an end user launches the product
       - Why: Without a lunch constraint, the end-user must have all permissions needed within their own IAM credentials.
     - Type: Notification constraint
-      - What: Specifies the SNS topic to receive notifcations about Stack Events
+      - What: Specifies the SNS topic to receive notifications about Stack Events
       - Why: Can get notification when products are launched or have problems
     - Template constraints
       - What: When one or more rules that narrow allowable values an end-user can select
@@ -329,4 +329,3 @@ Exam Tips:
   - Migrating to the cloud is often more secure than on-prem ue to increased transparency and visibility
   - Speak in terms of risk as a continuum rather and absolute.
   - Consider AWS Certificate Security - Specialty or any other industry standard certificate (CCSP)
-   
