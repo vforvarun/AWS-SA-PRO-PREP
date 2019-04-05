@@ -151,4 +151,54 @@
   - Evolution of AWS Import/Export process
   - Move massive amounts of data to and from AWS
   - Data transfer as fast or as slow as you are willing to pay a common carrier (UPS, DHL, FedEx etc)
-  - AWS 
+  - Encrypted At Rest and Transit: AWS will send the device so that the data can be loaded. The data is encrypted as the data is uploaded.
+  - Ways of moving data to AWS
+    - AWS Import/Export: Ship and external HDD to AWS. Someone at AWS plugs it in and copies the data manually to S3.
+    - AWS Snowball: Ruggedized NAS in a box AWS sends. Copy upto 80TB of data and ship it back to AWS. They copy it over to S3.
+    - AWS Snowball Edge
+      - Same as Snowball, but with onboard computing power such as, Lambda and clustering.
+      - Computing power exists so that data can be processed before uploading, also to enable collection of data from edge devices.
+    - AWS Snowmobile: A literal shipping container full of storage (up to 100PB) and a truck to transport it back to AWS.
+- Exam Tips
+  - Migration Strategies
+    - Understand the different strategies that companies might undertake when deciding if the cloud is right for them.
+    - Understand the typical trade-offs and relative benefits for each strategy
+  - Cloud Adoption Framework
+    - Know what a "framework" is and the realistic expectations that should accompany it
+    - Understand the high-level components of the Cloud Adoption Framework
+    - Most importantly, know that cloud adoption is only partially a technology effort
+  - Hybrid Architectures
+    - Be able to speak to some typical hybrid architectures that leverage both on-prem and cloud assets
+    - Know that VMWare has some nifty tools for abstracting workloads across on-prem and cloud, such as Import plug-in
+  - Migrations
+    - Understand the different services and tools available for migrating servers, storage and databases
+    - Tool usage specifics won't like be on the exam, expect may be Storage Gateway
+  - Network Migration and Cutover
+    - Know various hybrid networking architectures (See Network Chapter)
+    - Understand the smooth transitions from and to VPN and Direct Connect can be done using BGP routing; abrupt routing changes risk downtime
+- Whitepapers
+  - AWS Migration Whitepaper
+    - https://d1.awsstatic.com/whitepapers/Migration/aws-migration-whitepaper.pdf
+  - An overview of the AWS Cloud Adoption Framework
+    - https://d1.awsstatic.com/whitepapers/aws_cloud_adoption_framework.pdf
+  - Migrating Applications to AWS: Guide and Best Practices
+    - https://d1.awsstatic.com/whitepapers/Migration/migrating-applications-to-aws.pdf
+  - AWS Cloud Transformation Maturity Model
+    - https://d1.awsstatic.com/whitepapers/AWS-Cloud-Transformation-Maturity-Model.pdf
+- Videos
+  - How to access your organisation's readiness to migrate at scale
+    - https://www.youtube.com/watch?v=id-PY0GBHXA
+  - Migrating databases and data warehouses to the cloud
+    - https://www.youtube.com/watch?v=Y33TviLMBFY
+  - AWS Deep Dive: Using Hybrid Storage with AWS Storage Gateway to solve on-premises storage problems
+    - https://www.youtube.com/watch?v=9wgaV70FeaM
+- Pro Tips
+  - Technology is often a minor part of a cloud migration project
+    - Not all companies are ready for the migration to cloud.
+    - Technology is only a minor part, there is culture, people, processes etc which needs to align to the new way of doing things in cloud.
+    - Do not underestimate all the non-technical soft parts before making the leap.
+  - Project management discipline is a must - don't underestimate this.
+    - There is a need for some cadence, phases, gates, decision making process etc.
+  - Adapt the Cloud Adoption framework, but customise it to suit the organisation.
+  - Leverage the CAF to get buy-in by acknowledging the enterprise nature of cloud migrations
+  - Be a Boundary Spanner!
