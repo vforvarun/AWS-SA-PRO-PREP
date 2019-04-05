@@ -1,0 +1,154 @@
+*Migrations Module*
+
+- Migration Strategies
+  - Re-host
+    - Description: "Lift and Shift"; simply move assets with no change
+    - Example: Move on-prem MySQL database to EC2 instance
+    - Effort (Time & Cost): **
+    - Opportunity to Optimize: *
+  - Re-Platform
+    - Description: "Lift and Reshape"; Move assets but change underlying platform
+    - Example: Move on-prem MySQL database to RDS MySQL
+    - Effort (Time & Cost): ****
+    - Opportunity to Optimize: ***
+  - Re-Purchase
+    - Description: "Drop and Shape"; Abandon existing and purchase new
+    - Example: Migrate Legacy on-prem CRM solution to salesforce.com
+    - Effort (Time & Cost): ***
+    - Opportunity to Optimize: *
+  - Rearchitect
+    - Description: Redesigning application in cloud-native manner
+    - Example: Create a serverless version of legacy application
+    - *****
+    - Opportunity to Optimize: *****
+  - Retire
+    - Description: Get rid of applications which are not needed
+    - Example: End-of-Life the label printing app because no-one uses it anymore
+  - Retain
+    - Description: "Do nothing option"; Decide to revaluate at a future date
+    - Example: "Good news Servers, you'll live to see another day..!!"
+    - Effort (Time & Cost): *
+
+- Cloud Adoption Framework
+  - The Open Group Architecture Framework (TOGAF)
+    - Approach for designing, planning, implementing and governing enterprise IT architectures
+    - Started development in 1995
+    - De facto standard in EA practice
+    - Favored enterprise architecture framework for most Fortune 500 companies
+  - Criticisms
+    - Enterprise Architecture is TOGAF; Simply adopting TOGAF doesn't mean practicing proper Enterprise Architecture.
+    - But TOGAF often fills a vacuum where there are no other processes or standards.
+    - Often misunderstood and victim of unreasonable expectations; similar to how some people think Agile is solution to all problems.
+    - Not all practitioners are great practitioners; similar to agile; not all enterprise architects are good practitioners of TOGAF.
+    - TOGAF is not really a cookbook. It is a framework that can be adopted; a set of processes not a step-by-step guide.
+    - People take it too literally.
+    - "Architects gonna just Architect"
+    - Enterprise Architectures are Boundary Spanners. Build bridges in an organisation.
+  - What is a Framework?
+    - IS some information to help you get your mind around a problem.
+    - IS open for localisation and interpretation
+    - IS something one should adopt to their organisational culture
+    - IS NOT a perfect step-by-step recipe to success
+    - IS NOT something to hide behind with big words
+  - Typical Cloud Adoption Phases
+    - Pilot Project
+      - In this phase a PoC is performed to get familiar and experience the benefits from the cloud.
+    - Foundation
+      - After experiencing the benefits of the cloud, the next step is to build the foundation to scale the cloud adoption
+      - This includes creating a Landing Zone, Cloud Centre of Excellence, Operations Model as well as assuring security and compliance readiness.
+    - Migration
+      - In this phase, migrate existing applications including mission-critical applications or entire data centers to the cloud across a growing portion of the IT portfolio.
+    - Reinvention
+      - Now that the operations in the cloud, focus shifts to Reinvention by taking advantage of the flexibility and capabilities of AWS to transform the business by speeding time to market and increasing the attention on innovation.
+    - There is more to Cloud Adoption than technology
+    - To fully unlock the potential benefits of a cloud migration, a holistic approach must be considered.
+        - Business Perspective
+          - Creation of a strong business case for cloud adoption
+          - Business goals are congruent with cloud objectives
+          - Ability to measure benefits (TCO, ROI)
+        - People
+          - Evaluate organisational roles and structures, new skills and process needs and identify gaps.
+          - Incentives and Career Management aligned with evolving roles
+          - Training options appropriate for learning styles
+        - Governance
+          - Portfolio management geared for determining cloud eligibility and priority
+          - Program and project management more agile projects
+          - Align KPIs with newly enabled business capabilities
+        - Platform
+          - Resource provisioning can happen with standarisation.
+          - Architecture patterns adjusted to leverage cloud-native
+          - New application development skills and processes enable more agility
+        - Security
+          - Identity and Access Management modes change
+          - Logging and audit capabilities will evolve
+          - Shared responsibility model removes some and adds some facets
+        - Operations
+          - Service monitoring has potential to be highly automated
+          - Performance management can scale as needed
+          - Business continuity and disaster recover takes new methods in cloud
+- Hybrid Architecture
+  - Hybrid Architecture makes use of cloud resources along with on-premise resources
+  - Very common first step as a pilot for cloud migrations
+  - Infrastructure can augment or simply be extensions of on-prem platforms - VMWare for example
+  - Ideally, integrations are loosely coupled - meaning each end can exist without extensive knowledge of the other side
+  - Example of a Hybrid Architecture
+    - Storage Gateway
+      - Storage Gateway creates a bridge between on-prem and AWS.
+      - Seamless to end-users
+      - Common first step into the cloud due to low risk and appealing economics
+    - ERP System
+      - On-premise ERP system feeds data into a middleware.
+      - Middleware system pushes the data to a SQS queue on the cloud.
+      - A EC2 worker instance polls or lambda the queue and pushes it to the dynamoDB.
+      - This allows decoupling of on-premise applications. ERP system doesn't have to know about DynamoDB and vice versa.
+    - VMware
+      - If on-premise DC is maxed out, a VMWare plugin allows scaling into the cloud.
+- Migration Tools
+  - Storage Migration
+    - AWS Storage Gateway
+    - AWS Snowball
+    - AWS SnowMobile
+  - Server Migration Service
+    - Automates migration of on-premise VMWare vSphere or Microsoft HyperV/SCVMM virtual machines to AWS
+    - Replicates VMs to AWS, syncing volumes and creating periodic AMIs
+    - Minimizes cutover downtime by syncing VMs incrementally
+    - Supports Windows and Linux VMs only (just like AWS)
+    - The Server Migration Connector is downloaded as a Virtual Appliance into the on-prem vSphere or HyperV setup
+  - Database Migration Service (DMS)
+    - DMS can work in conjunction with Schema Conversion tool (SCT) helps customers migrate databases to AWS RDS or EC2-based databases
+    - Schema Conversion tool can copy database schemas for homogenous migrations (same database) and convert schemas for heterogeneous migrations (different databases)
+    - DMS is used for smaller, simpler conversions and also supports MongoDB and DynamoDB
+    - SCT is used for larger, more complex datasets like data warehouses.
+    - DMS has a replication function for on-prem to AWS or to Snowball or S3
+  - Application Discovery Service
+    - Gathers information about on-premises data centres to help in cloud migration planning
+    - Often customers don't know the full inventory or status of all their data center assets, so this tool helps with that inventory
+    - Collets config, usage and behavior data from servers to help help in estimating TCO of running on AWS
+    - Can run agent-less (VMWare environment) or agent-based (non-VMWare environment)
+  - AWS Migration Hub
+    - Available as a service in the AWS Console
+    - It serves as an umbrella under which all migration tools run.
+- Network Migrations and Cut Overs
+  - CIDR Reservations
+    - Ensure IP addresses don't overlap between VPC and on-prem
+    - VPCs support IPv4 netmasks range from /16 to /28
+      - /16 = 255.255.0.0 = 65,024 Hosts
+      - /28 = 255.255.255.0 = 16 Hosts
+    - 5 IPs are reserved in every VPC subnet (example: 10.0.0.0/24)
+      - 10.0.0.0: Network Address
+      - 10.0.0.1: Reserved by AWS for VPC Router
+      - 10.0.0.2: Reserved by AWS for Amazon DNS
+      - 10.0.0.3: Reserved by AWS for future use
+      - 10.0.0.255: VPCs don't support broadcast so AWS reserves this IP address
+  - Network Migrations
+    - Most organisations start with a VPN connection to AWS
+    - As usage grows, they might choose Direct Connect but keep the VPN as a backup.
+    - Transition from VPN to Direct Connect can be relatively seamless using BGP
+    - Once the Direct Connect is setup, configure both VPN and Direct Connect within the same BGP prefix
+    - From the AWS side, the Direct Connect Path is always preferred.
+    - ..but you need to be sure the Direct Connect path is the preferred route from the network to AWS and not VPN (through BGP weighting or static routes)
+- Amazon Snow Family
+  - Evolution of AWS Import/Export process
+  - Move massive amounts of data to and from AWS
+  - Data transfer as fast or as slow as you are willing to pay a common carrier (UPS, DHL, FedEx etc)
+  - AWS 

@@ -38,7 +38,7 @@ Concepts
   - Best suited for SSO for enterprise users  
 - OAuth 2.0
   - Allow sharing of protected assets without having to send login credentials
-  - Handles Authroisation only, not Authentication
+  - Handles Authorisation only, not Authentication
   - Issues token to client
   - Application validates token with Authorisation server
   - Delegates access, allowing client application to access information on users behalf
