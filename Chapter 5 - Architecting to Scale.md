@@ -1,0 +1,123 @@
+*Architecting to Scale Module*
+
+- Concepts
+  - Architectural Patterns
+    - Loosely Coupled Architecture (LCA)
+      - Components can stand independently and require little or no knowledge of the inner workings of the other components.
+      - Benefits of LCA
+        - Layers of abstraction
+        - Permits more flexibility
+        - Interchangeable components
+        - More atomic or isolated functional units
+        - Can scale components independently
+  - Types of Scaling
+    - Horizontal Scaling (Scale Out)
+      - Add more instances as demand increases
+      - No downtime required to Scale Out of Scale in
+      - Automatic using Auto-Scaling groups
+      - Theoretically Unlimited on AWS
+      - Cost Effective
+    - Vertical Scaling (Scale Up)
+      - Add more CPU and/or RAM to existing instance as demand increases
+      - Requires restart to scale up or down
+      - Would require scripting to automate
+      - Limited by instance sizes
+  - Auto-Scaling Groups
+    - Automatically provides horizontal scaling (scale-out) as required by the demand
+    - Triggered by an event or scaling action to either launch or terminate instances
+    - Availability, Cost and System metrics can all factor into scaling.
+    - Four Scaling Options
+      - Maintain
+        - Keep a specific or minimum number of instances running
+        - What: Hands-off way to maintain X number of instances
+        - When: I need 3 instances always
+      - Manual
+        - Use maximum, minimum or specific number of instances
+        - What: Manually change desired capacity via console or CLI
+        - When: My needs change so rarely that I can just manually add and remove
+      - Schedule
+        - Increase or Decrease instances based on Schedule
+        - What: Adjust min/max instances based on specific times
+        - When: Every Monday morning, we get a rush on our website
+      - Dynamic
+        - Scale based on real-time metrics of the systems
+        - What: Scale in response to behavior of elements in the environment
+        - When: When CPU Utilisation gets to 70% on current instances, scale up
+    - Launch Configurations
+      - Template used in Autoscaling group which defines
+        - type of EC2 instance
+        - Specify VPC and Subnets for scaled instances
+      - Attach to a ELB
+      - Define a Health Check Grace Period
+      - Define size of the group to stay at a initial size
+      - Or Use scaling policy which can be based from metrics (CPU, ALB Request Count Per Target, Network Traffic In/Out)
+    - Scaling Policies
+      - Target Tracking Policy
+        - What: Scale based on a predefined or custom metric in relation to a target value
+        - When: When CPU Utilisation gets to 70% on current instances, scale up
+      - Simple Scaling Policy
+        - What: Waits until health check and cool down period expires before evaluating new need
+        - When: Let's add new instances slow and steady
+      - Step Scaling Policy
+        - What: Responds to scaling needs with more sophistication and logic
+        - When: AGG! Add ALL instances
+    - Scaling Cooldowns
+      - Configuration duration that gives scaling a chance to "come up to speed" and absorb load
+      - Default cooling period is 300 seconds
+      - Automatically applies to dynamic scaling and optionally to manual scaling but not supported for *scheduled scaling*
+      - Can override default cooldown via scaling-specific cool down
+      - Review examples
+  - Kinesis
+    - Collection of services for processing streams of various data
+    - Data is processed in "shards" - with each shard able to ingest 1000 records per second
+    - A default limit of 500 shards, but you can request an increase to unlimited shards
+      - Shards allow parallel processing of incoming data.
+      - More like lanes in a highway. More lanes, more traffic can pass through.
+    - Record consists of Partition Key, Sequence Number and Data Blog (up to 1MB)
+    - Transient Data Store - Default Retention of 24 hours, but can be configured for up to 7 days
+    - Flavors for Kinesis
+      - Kinesis Video Streams
+        - Stream the data coming through from various sources, optimised to handle video data.
+      - Kinesis Data Streams
+        - Stream any data coming through from various sources
+      - Kinesis Firehose
+        - Receive data coming through from various sources and land it in S3, Redshift, lambda, EC2 instance etc.
+      - Kinesis Data Analytics
+        - Apply analytics on incoming data immediately.
+  - DynamoDB Scaling
+    - Divided into two dimensions
+      - Throughout
+        - Read Capacity Units
+        - Write Capacity Units
+      - Size
+        - Max Item Size 400KB
+    - Terminology
+      - Partition: A physical space where DynamoDB is stored
+      - Partition Key: A unique identifier for each record; sometimes called as a Hash Key
+      - Sort Key: In combination wtih the Partition Key, a composite key can be created that defines storage order; Sometimes called as "Range Key"
+    - Under the Hood
+      - DynamoDB scales by adding partitions.
+      - Partition Calculation
+        - By Capacity: (Total RCU / 3000) + (Total WCU / 1000)
+        - By Size: Total Size / 10 GB
+        - Total Partitions: Round Up for MAX (By Capacity, By Size)
+        - Example
+          - By Capacity: (2000 RCU / 3000) + (2000 WCU / 1000) = 2.66
+          - By Size: 10 GB / 10 GB = 1
+          - Total Partitions: MAX (2.66,1) = 2.66 Round Up = 3 Partitions
+      - Using Target Tracking method to try and stay close to Target Utilisation
+      - Currently does not scale down if table's consumption drops to Zero
+        - Workaround #1: Send requests to the table unit until it scales down
+        - Workaround #2: Manually reduce the max capacity to be the same as min capacity
+      - Also supports Global Secondary Indexes - think of them like a copy of the table just indexed or keyed differently
+  - CloudFront
+    - Can deliver content to users faster by caching static and dynamic content at edge locations
+    - Dynamic Content delivery is achieved using HTTP cookies forwarded from your origin
+    - Supports Adobe Flash Media Server's RTMP Protocol but have to choose RTMP delivery method
+    - Web distributions also support media streaming and live streaming but use HTTP or HTTPS
+    - Origins can be S3, EC2, ELB or another web server
+    - Multiple origins can be configured
+    - User Behaviors to configure serving up origin content based on URL Paths
+    - Example: CloudFront CDN can configured to serve static content from a S3 bucket and dynamic content via an ELB which is backended by an EC2 fleet.
+    - Invalidation Requests
+      - There are several ways to invalidate 
