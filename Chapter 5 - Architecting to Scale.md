@@ -120,4 +120,64 @@
     - User Behaviors to configure serving up origin content based on URL Paths
     - Example: CloudFront CDN can configured to serve static content from a S3 bucket and dynamic content via an ELB which is backended by an EC2 fleet.
     - Invalidation Requests
-      - There are several ways to invalidate 
+      - There are several ways to invalidate a CloudFront cache
+        - Simply delete the file from the origin and wait for the TTL to expire. TTL is configurable
+        - Use the AWS console to request invalidation for all content or a specific path such as /images/*
+        - Use the CloudFront API to submit an invalidation request
+        - Use Third-party tools to perform CloudFront invalidation (CloudBerry, YLastic, CDN Planet, CloudFront Purge Tool)
+    - CloudFront Supports
+      - Zone Apex DNS entries (that is without www or any subdomains in front of the URL)
+      - Geo Restriction: White List and Black List countries to access the CloudFront content
+  - Amazon Simple Notification Service (SNS)
+    - Enables a Publish/Subscribe design pattern
+    - Topics: A channel for publishing a notification, consider this as an outbox
+    - Subscription: Configuring an endpoint to receive messages published on the topic
+    - Endpoint protocols include HTTP(S), email, SMS, SQS, Amazon Device Messaging (push notifications) and lambda
+    - Fan Out Architecture
+      - User Uploads an item ->
+      - S3 bucket ->
+      - SNS ->
+      - Image Upload Topic ->
+        - SES -> Thank you email
+        - SQS -> Image Resize Queue
+        - Lambda -> Amazon Rekognition
+  - Amazon Simple Queue Service (SQS)
+    - Reliable, highly-scalable, hosted message queuing service.
+    - Available integration with KMS for encrypted messaging.
+    - Transient Storage - default 4 days, max 14 days
+    - Optionally supports First-in First-out queueing order.
+    - Maximum message size of 256KB but by using a special Java SQS SDK, messages can be as large as 2GB.
+      - Stores the message on S3 and creates a SQS message as a pointer to the message
+    - Significant benefit of SQS is that it helps create Loosely coupled architectures.
+    - Standard Queue vs FIFO queue
+      - Standard Queue: Order is not guaranteed.
+      - FIFO Queue: Order is guaranteed, first in, first out
+  - Amazon MQ
+    - Managed implementation of Apache's ActiveMQ
+    - Fully Managed and highly available within a region
+    - Fully supports ActiveMQ API, JMS, NMS, MQTT, WebSocket etc
+    - Designed as a drop-in replacement for on-premise message brokers
+    - Use SQS if a new application is created from scratch.
+    - Use MQ if migrating an existing Message Brokers to AWS
+  - Amazon Lambda
+    - Allows users to run code on-demand without the need for Infrastructure
+    - Supports Node.js, Python, Java, Go and C#
+    - Code is stateless and executed on a event basis (SNS, SQS, S3, DynamoDB Streams etc)
+    - No fundamental limits to scaling a function since AWS dynamically allocates capacity in relation to events
+  - Simple Workflow Service (SWF)
+    - Create distributed asynchronous systems as workflows
+    - Supports both sequential and parallel processing.
+    - Tracks the state of the workflow which you interact and update via API
+    - Best suited for human-enabled workflows like a order fulfilment or procedural requests
+    - AWS recommends new applications - look at Step Functions over SWF
+    - Components for SWF
+      - Activity Worker
+        - A program that interacts with the AWS SWF service to get tasks, process tasks and return results
+      - Decider
+        - A program that controls coordination of tasks such as their ordering, concurrency and scheduling
+  - AWS Step Functions and Batch
+    - Managed workflow and orchestration platform
+    - Scalable and highly available
+    - Define app as a state machine
+    - Create tasks, sequential steps, parallel steps, branching paths or timers.
+    - Amazon State Language declartive JSON
