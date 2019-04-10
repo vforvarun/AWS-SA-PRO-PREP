@@ -207,5 +207,5 @@
         - Use Case: Rotate Logs daily on Firewall Appliance
     - Elastic MapReduce
       - This isn't one single product, rather it is a collection of OpenSource products.
-        - ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/MapReduce.png)
+       ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/MapReduce.png)
         - HDFS: Is just the filesystem that the data gets stored in. Condusive to data analytics and data manipulation.  
