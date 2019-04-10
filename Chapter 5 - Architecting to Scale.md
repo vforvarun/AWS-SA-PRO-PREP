@@ -208,4 +208,85 @@
     - Elastic MapReduce
       - This isn't one single product, rather it is a collection of OpenSource products.
        ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/MapReduce.png)
-        - HDFS: Is just the filesystem that the data gets stored in. Condusive to data analytics and data manipulation.  
+        - EMR Core
+          - Hadoop HDFS: Is just the filesystem that the data gets stored in. Conducive to data analytics and data manipulation.  
+          - Hadoop MapReduce: Actual Framework to do the processing of the data
+        - EMR Management
+          - Zoo Keeper: Involved in Resource Co-ordination.
+          - Oozie: Workflow Framework
+          - Apache Pig: Scripting Framework
+          - Hive: SQL Interface to Hadoop Landscape
+          - Mahout: Machine Learning Component
+          - Apache HBase: Columnar Database for storing Hadoop data
+          - Flume: Very helpful for ingesting Application and System logs
+          - Scoop: Facilitates the import of data into Hadoop from other databases or datasources
+          - Ambari: Management and Monitoring console
+        - Enterprise Support, Professional Support and Project Contributions
+          - Hortonworks
+          - Cloudera
+      - AWS Elastic MapReduce (EMR)
+        - Managed Hadoop Framework for processing huge amounts of data
+        - Also supports Apache Spark, HBase, Presto and Flink
+        - Most commonly used for log analysis, financial analysis or extract, translate and loading (ETL) activities.
+        - A Step is a programmatic task for performing some process on the data (eg. count words)
+        - A cluster is a collection of EC2 instances provisioned by EMR to run the Steps
+        - Components of EMR
+          - Core Nodes - Holds the data for processing
+          - Task Nodes - Worker nodes, storage is ephemeral (no persistent storage of data), works on the step
+        - AWS EMR Process Example
+          - Step 1: Hive Script
+          - Step 2: Custom Jar
+          - Step 3: Pig Script
+          - Step 4: Output to S3 bucket
+  - Exam Tips
+    - Auto Scaling Groups
+      - Know the different scaling options and policies
+      - Understand the difference and limitations between horizontal and vertical scaling
+      - Know what cooling down period (not the same as health check grace period) is and how it impacts the responsiveness to demand
+    - Kinesis
+      - Exam is likely to restricted to the Data Stream use cases for Kinesis such as Data Streams and Firehose
+      - Understand shard concept and how partition keys and sequences enabled shards to manage data flow
+    - DynamoDB Autoscaling
+      - Know the new and old terminology and concept of a partition, partition key and sort key in the context of DynamoDB
+      - Understand how DynamoDB calculates total partitions and allocates RCU and WCU across available partitions
+      - Conceptually know how data is stored across partitions
+    - CloudFront
+      - Know that both static and dynamic content is supported
+      - Understand possible origins and how multiple origins can be used together with Behaviors
+      - Know invalidation methods, zone apex and geo-restriction options
+    - SNS
+      - Understand a loosely coupled architecture and benefits it brings
+      - Know the different types of subscription end points supported
+    - SQS
+      - Know the difference between
+        - Standard and FIFO Queues
+        - Pub/Sub (SNS) and Message Queueing (SQS) architecture
+    - Lambda
+      - Know what "serverless" is in concept and how Lambda can facilitate such an architecture
+      - Know the languages supported by Lambda
+    - SWF
+      - Understand the difference and functions of a Worker and Decider
+      - Best suited for human-enabled workflows like order fulfillment or procedural requests
+    - Elastic MapReduce
+      - Understand the parts of a Hadoop landscape at a high-level
+      - Know what a Cluster is and what steps are
+      - Understand the roles of a Master Node, Core Nodes and Task Nodes.
+  - Whitepapers
+    - Web Application Hosting in the AWS Cloud
+      - https://d1.awsstatic.com/whitepapers/aws-web-hosting-best-practices.pdf
+    - Introduction to Scalable Gaming Patterns on AWS
+      - https://d0.awsstatic.com/whitepapers/aws-scalable-gaming-patterns.pdf
+    - Performance at Scale with Amazon Elasticache
+      - https://d0.awsstatic.com/whitepapers/performance-at-scale-with-amazon-elasticache.pdf
+    - Automating Elasticity
+      - https://docs.aws.amazon.com/aws-technical-content/latest/cost-optimization-automating-elasticity/cost-optimization-automating-elasticity.pdf
+  - Videos
+    - Scaling up to your First 10 Million Users
+      - https://www.youtube.com/watch?v=w95murBkYmU
+    - Learning to build a cloud-scale Wordpress site that can keep up with Unpredictable Changes and Capacity Demands
+      - https://www.youtube.com/watch?v=dPdac4LL884
+    - Elastic Load Balancing Deep Dive and Best Practices
+      - https://www.youtube.com/watch?v=9TwkMMogojY
+  - Pro Tips
+    - Elasticity will drive most benefit from the cloud
+    - 
