@@ -175,9 +175,37 @@
         - A program that interacts with the AWS SWF service to get tasks, process tasks and return results
       - Decider
         - A program that controls coordination of tasks such as their ordering, concurrency and scheduling
-  - AWS Step Functions and Batch
+  - AWS Step Functions
     - Managed workflow and orchestration platform
     - Scalable and highly available
     - Define app as a state machine
     - Create tasks, sequential steps, parallel steps, branching paths or timers.
-    - Amazon State Language declartive JSON
+    - Amazon State Language declarative JSON to configure and document the steps of step function
+    - Apps can interact and update the stream via Step Function API
+    - Visual Interface that helps describe the flow and real time status
+    - Detailed logs captured for all the steps
+    - Finite State Machine
+  - AWS Batch
+    - Management tool for creating, managing and executing batch-oriented tasks using EC2 instances
+    - Create a Compute Environment: Managed or Unmanaged, Spot or On-Demand, vCPUs
+    - Create a Job Queue with priority assigned to Compute Environment
+    - Create a Job Definition: Script or JSON, environment variables, mount points, IAM role, container image etc.
+    - Schedule the Job
+    - Comparisons
+      - Step Functions
+        - When: Out-of-the-box coordination of AWS service components
+        - Use Case: Order processing flow
+      - Simple Work Flow service
+        - When: Need to support external processes or specialised execution logic.
+        - Use Case: Loan Application Process with manual review steps
+        - Note: This is being phased out and Amazon is pushing towards adopting Step Function.
+      - Simple Queue Service
+        - When: Message Queue; Store and Forward Patterns
+        - Use Case: Image resize process
+      - AWS Batch
+        - When: Scheduled or reoccurring tasks that doesn't require heavy logic
+        - Use Case: Rotate Logs daily on Firewall Appliance
+    - Elastic MapReduce
+      - This isn't one single product, rather it is a collection of OpenSource products.
+        - ![alt text](https://raw.githubusercontent.com/vforvarun/AWS-SA-PRO-PREP/master/MapReduce.png)
+        - HDFS: Is just the filesystem that the data gets stored in. Condusive to data analytics and data manipulation.  
