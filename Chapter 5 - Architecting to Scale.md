@@ -288,5 +288,10 @@
     - Elastic Load Balancing Deep Dive and Best Practices
       - https://www.youtube.com/watch?v=9TwkMMogojY
   - Pro Tips
-    - Elasticity will drive most benefit from the cloud
-    - 
+    - Elasticity will drive most benefit from the cloud such as cost and agility
+    - Think Cloud-First designs if you're in a Green Field scenario even if you are deploying on-prem
+      - Most modern data centres are moving towards modular workloads to support things like Docker and Cloud Foundary
+      - These things allow us to scale horizontally just like in the cloud
+    - If in "Brown Field" situation, create roadmaps for cloud-first enablers like distributed applications, federated data and SOA
+    - Be careful to not let elasticity cover for poor development methods
+    - Microservice concepts help achieve scalability via decoupling, simplification and seperation of concerns
