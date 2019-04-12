@@ -73,7 +73,8 @@
     - A default limit of 500 shards, but you can request an increase to unlimited shards
       - Shards allow parallel processing of incoming data.
       - More like lanes in a highway. More lanes, more traffic can pass through.
-    - Record consists of Partition Key, Sequence Number and Data Blog (up to 1MB)
+      - The recommended method to read data from a shard is via Kinesis Consumer Library
+    - Record consists of Partition Key, Sequence Number and Data Blob (up to 1MB)
     - Transient Data Store - Default Retention of 24 hours, but can be configured for up to 7 days
     - Flavors for Kinesis
       - Kinesis Video Streams
