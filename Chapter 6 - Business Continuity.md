@@ -177,4 +177,96 @@
   - Glacier
     - Safe offsite archive storage
     - Long-term storage with rare retrieval needs
-    
+- HA approaches for Compute
+  - Up-to-date AMIs are critical for rapid fail-over
+  - AMIs can be copied to other regions for safety or DR staging purposes
+  - Horizontally scalable architectures are preferred because risks can be spread across multiple smaller machines versus one large machine
+  - Reserved instances is the only way to guarantee that resources will be available when needed
+  - Auto-scaling and Elastic Load Balancing work together to provide automated recovery by maintaining minimum instances
+  - Route 53's health checks also provide "Self-Healing" redirection of traffic
+  ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/route-53.png)
+- HA approaches for Database
+  - If possible, choose DynamoDB over RDS because of inherent fault tolerance feature of DynamoDB
+  - If DynamoDB can't be used, choose Aurora because of redundancy and automatic recovery features
+  - If Aurora can't be used, then choose Multi-AZ RDS
+  - Frequent RDS snapshots can protect against data corruption failure and then won't impact performance of multi-AZ deployment
+  - Regional replication is also an option, but it is not strongly consistent. It will be slightly out-of-date from the master
+  - If Database is on EC2, then HA is in the hands of the user.
+  ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/rds-ha.png)
+  ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/rds-ha-az-failure.png)
+  ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/rds-ha-region-failure.png)
+  - Redshift
+    - Currently Redshift doesn't support multi-AZ deployments
+    - Best HA option is to use a multi-node cluster which supports data replication and recovery
+    - A single-node Redshift cluster doesn't support data replication, if it fails then manual it should restore from a snapshot on S3.
+  - Memcached
+    - Because Memcached doesn't support replication, a node failure will result in dataloss
+    - Use multiple nodes in each shard to minimize data loss on node failuer
+    - Launch multiple nodes across available AZs to minimize data loss on AZ failure
+  - Redis
+    - Use multiple nodes in each shard and distribute the nodes across multiple AZs
+    - Enable multi-AZ on the replication group to permit automatic failover if the primary node fails
+    - Schedule regular backups of the Redis cluster
+- HA approaches for Networking
+    - By creating subnets in the available AZs, create multi-AZ presence for the VPC
+    - Best practice is to create at least two VPN tunnels into Virtual Private Gateway
+    - Direct Connect is no HA by default, so establish a secondary connection via another Direct Connect (ideally with another provider) or use a VPN
+    - Route 53's (100% availability SLA) Checks provide basic level of redirecting DNS resolutions
+    - Elastic IPs allow flexibility to change out baking assets without impacting name resolution
+    - For multi-AZ redundancy of NAT Gateways, create gateways in each AZ with routes for private subnets to use the local Gateway
+    ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/redundant-arch.png)
+    ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/route-53-hcs.png)
+- Exam Tips
+  - General Concepts
+    - Know the difference between Business Continuity, Disaster Recovery and Service Levels
+    - Know the difference between High Availability and Fault Tolerance
+    - Understand the inter-relationships and how AWS uses the terms
+    - Know the difference between TRO and RPO
+    - Know the four general types of DR architectures and trade-offs of each
+  - Storage Options
+    - Understand the HA Capabilities and limitations of AWS storage options
+    - Know when to use each storage option to achieve the required level of recovery capability
+    - Understand RAID and the potential benefits and limitations
+  - Compute Options
+    - Understand why horizontal scaling is preferred from an HA perspective
+    - Know that compute resources are finite in an AZ and know how to guarantee their availability
+    - Understand how Auto Scaling and ELB can contribute to HA
+  - Database Options
+    - Know the HA attributes of the various Database services
+    - Understand the different HA approaches and risks for Memcached and Redis
+    - Know which RDS options require manual failover and which are automatic
+  - Network Options
+    - Know which networking components are not redundant across AZs and how to architect for them to be redundant
+    - Understand the capabilities of Route 53 and Elastic IP in context of HA
+  - White Papers
+    - Backup and Recovery Approaches Using AWS
+      - https://d1.awsstatic.com/whitepapers/Storage/Backup_and_Recovery_Approaches_Using_AWS.pdf
+    - Getting Started with Amazon Aurora
+      - https://d1.awsstatic.com/whitepapers/getting-started-with-amazon-aurora.pdf
+    - AWS Reliability Pillar: AWS Well-Architected Framework
+      - https://d1.awsstatic.com/whitepapers/architecture/AWS-Reliability-Pillar.pdf
+  - Videos
+    - Modes of Availability
+      - https://www.youtube.com/watch?v=xc_PZ5OPXcc
+    - How to Design a Multi-Region Active-Active Architecture
+      - https://www.youtube.com/watch?v=RMrfzR4zyM4
+    - Disaster Recovery with AWS: Riered Approaches to Balance Cost with Recovery Objectives
+      - https://www.youtube.com/watch?v=a7EMou07hRc
+- Pro Tips
+  - Failure Mode and Effects Analysis (FMEA): Created in 1950s by the ARMY
+    - A systematic process to examine
+      - What could go wrong
+      - What impact it might have
+      - What is the likelihood of it occurring
+      - What is our ability to detect and react
+    - Formula
+      - Severity * Probability * Detection = Risk Priority Number
+    - Case Study
+      - Step 1: Round up Possible Failures
+        - Invoicing
+          | Failure Mode  | Cause | Current Controls  |
+            ------------  | ----- | ----------------  |
+          | Pricing Unavailable  |  Retail price incorrect in ERP system | Master data maintenance audit report  |
+          | Pricing Incorrect | Retail price not assigned in ERP system | None  |
+          | Slow to build Invoice | Invoicing System is slow  | None  |
+          | Unable to build invoice | Invoicing System is offline | Uptime monitor  |
