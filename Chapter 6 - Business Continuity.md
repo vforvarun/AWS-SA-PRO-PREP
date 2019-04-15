@@ -264,6 +264,7 @@
     - Case Study
       - Step 1: Round up Possible Failures
         - Invoicing
+        
           | Failure Mode  | Cause | Current Controls  |
             ------------  | ----- | ----------------  |
           | Pricing Unavailable  |  Retail price incorrect in ERP system | Master data maintenance audit report  |
