@@ -265,7 +265,6 @@
       - Invoicing
       - Step 1: Round up Possible Failures
 
-
           | Failure Mode  | Cause | Current Controls  |
             ------------  | ----- | ----------------  |
           | Pricing Unavailable  |  Retail price incorrect in ERP system | Master data maintenance audit report  |
@@ -290,5 +289,6 @@
           | Pricing Incorrect | 8 | 3 | 9 | **`216`**  |
           | Slow to build Invoice | 5 | 2 | 9 | 90  |
           | Unable to build invoice | 8 | 3 | 2 | 48  |
+
     - FMEA Across Diaster Categories
     ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/case-study-2.png)
