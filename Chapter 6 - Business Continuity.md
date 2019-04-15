@@ -261,13 +261,34 @@
       - What is our ability to detect and react
     - Formula
       - Severity * Probability * Detection = Risk Priority Number
-    - Case Study
+    - Case Study #1
+      - Invoicing
       - Step 1: Round up Possible Failures
-        - Invoicing
-        
+
+
           | Failure Mode  | Cause | Current Controls  |
             ------------  | ----- | ----------------  |
           | Pricing Unavailable  |  Retail price incorrect in ERP system | Master data maintenance audit report  |
           | Pricing Incorrect | Retail price not assigned in ERP system | None  |
           | Slow to build Invoice | Invoicing System is slow  | None  |
           | Unable to build invoice | Invoicing System is offline | Uptime monitor  |
+
+      - Step 2: Assign Scores
+
+          | Failure Mode  | Customer Impact | Likelihood  | Detect and React  | Risk Priority Number  |
+            ------------  | --------------- | ----------- | ----------------  | --------------------  |
+          | Pricing Unavailable  |  7 | 3 | 2 | 42  |
+          | Pricing Incorrect | 8 | 3 | 9 | 216  |
+          | Slow to build Invoice | 5 | 2 | 9 | 90  |
+          | Unable to build invoice | 8 | 3 | 2 | 48  |
+
+      - Step 3: Prioritize on Risk
+
+          | Failure Mode  | Customer Impact | Likelihood  | Detect and React  | Risk Priority Number  |
+            ------------  | --------------- | ----------- | ----------------  | --------------------  |
+          | Pricing Unavailable  |  7 | 3 | 2 | 42  |
+          | Pricing Incorrect | 8 | 3 | 9 | **`216`**  |
+          | Slow to build Invoice | 5 | 2 | 9 | 90  |
+          | Unable to build invoice | 8 | 3 | 2 | 48  |
+    - FMEA Across Diaster Categories
+    ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/case-study-2.png)
