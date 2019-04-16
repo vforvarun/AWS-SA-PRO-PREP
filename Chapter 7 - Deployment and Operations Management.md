@@ -114,20 +114,21 @@
   - Managed, highly available, highly scalable container platform
 
   | Amazon ECS  | Amazon EKS  |
-    ----------    ----------
+  |  ---------- | ----------  |
   | AWS-specific platform that supports Docker containers | Compatible with Upstreak K8s so its easy to lift and shift from other K8s |
   | Considered simpler to learn and use | Considered more feature-rich and complex wiht a steep learning curve  |
   | Leverages AWS services like Route 53, ALB and CloudWatch  | A hosted K8s platform than handles many things internally |
   | "Tasks" are instances of containers that run on underlying compute but more or less isolated  | "Pods" are containers co-located with one another and can have shared access to each other  |
-  | Limited extensibility | Extensible via a wide variety of thired-party and community add-ons |
+  | Limited extensibility | Extensible via a wide variety of third-party and community add-ons |
 
   - Launch Types
 
   | Amazon EC2 Launch Type  | Amazon Fargate Launch Type  |
+  | ----------------------  | --------------------------  |
   | Explicitly provision EC2 instances  | The control plane asked for resources and Fargate automatically provisions  |
   | Client responsible for upgrading, patching, care of EC2 pool  | Fargate provisions compute as needed |
-  | Client must handle cluster optimization | Farget handles cluster optimization |
-  | More granular control over infrastructure | Limited control, as infrastrucutre is automated |
+  | Client must handle cluster optimization | Fargate handles cluster optimization |
+  | More granular control over infrastructure | Limited control, as infrastructure is automated |
 
 - API Gateway
   - Managed, highly available service to front-end REST APIs
