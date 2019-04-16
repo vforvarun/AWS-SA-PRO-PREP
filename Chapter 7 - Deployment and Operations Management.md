@@ -233,7 +233,7 @@
     - Understand the deployment options with Elastic Beanstalk and the tradeoffs for each
   - CloudFormation
     - Understand how CloudFormation delivers infrastructure as code and the benefits of that
-    - Go through other CloudFormation trainings availabe in acloud.guru
+    - Go through other CloudFormation trainings available in acloud.guru
   - Elastic Container Service
     - Know the difference between ECS and EKS - as well as the uniqueness of each
     - Understand the difference between EC2 Launch Types and Fargate Launch Types
