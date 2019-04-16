@@ -2,7 +2,7 @@
 
 - Types of Deployments
   - Software Deployment
-    ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/deployment-types.png)
+    ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/software-deployments.png)
     - Big Bang
       - Fastest and High Risk Deployment
     - Phased Rollout
@@ -71,3 +71,69 @@
     - Helps with debugging
   - AWS CodeStar
     - Helps standardise the CI/CD using templates
+- Elastic Beanstalk
+  - Orchestration service to make it push-button easy to deploy scalable landscapes
+  - Wide range of supported platforms - from Docker to PHP to Java to Node.js
+  - Multiple Environments within Application (DEV, QA, PRD, etc)
+  - Great for ease of deployment, but not great if you there is a need for control and flexibility
+  - Layers of Elastic Beanstalk
+  ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/elastic-beanstalk-components.png)
+    - Application Layer
+      - This is the management layer
+      - Can comprise of multiple environments, these are instances, load balancers, auto-scaling groups, monitoring and so forth
+      - Can have multiple application versions
+  - Elastic Beanstalk Deployment Options
+  ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/ebs-deployment-options.png)
+  ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/blue-green-swap-url.png)
+- CloudFormation
+  - Infrastructure as code
+  - Using JSON or YAML, model and provision entire landscapes
+  - Releatable, automatic deployments and rollbacks
+  - Nest common components for reuasability
+  - Supports over 300 Resource Types (components of AWS Services). Custom Resource types are also possible.
+  - Concepts
+    - Templates
+      - JSON or YAML text file that contains the instructions for building-out the AWS environment
+      - Stacks
+        - The entire envrionemnt described by the template and created, upldated and deleted as a single unit
+      - Change Sets
+        - A summary of proposed changes to the stack that will show those changes might impact existing resources before implementing them
+      - The only required parameter in a template "Resources"
+      - Stack Policies
+        - Protect specific resources within the stack from being unintentionally deleted or updated.
+        - Add a Stack Policy via the console or CLI when creating a stack.
+        - Adding a Stack Policy to an existing stack can only be done via CLI
+        - Once applied, a Stack Policy cannot be renamed but it can be modified only via CLI.
+  - CloudFormation Best Practices
+    - AWS provides Python "helper scripts" which can help you install software and start services on EC2 instances
+    - Use CloudFormation to make changes to the landscape rather than going directly into the resources
+    - Make use of Change Sets to identify potential trouble spots in the updates.
+    - Use Stack Policies to explicitly protect sensitive portions of the stack.
+    - Use a version control system such as COdeCommit or GitHub to track changes.
+- Elastic Container Service
+  - Managed, highly available, highly scalable container platform
+
+  | Amazon ECS  | Amazon EKS  |
+    ----------    ----------
+  | AWS-specific platform that supports Docker containers | Compatible with Upstreak K8s so its easy to lift and shift from other K8s |
+  | Considered simpler to learn and use | Considered more feature-rich and complex wiht a steep learning curve  |
+  | Leverages AWS services like Route 53, ALB and CloudWatch  | A hosted K8s platform than handles many things internally |
+  | "Tasks" are instances of containers that run on underlying compute but more or less isolated  | "Pods" are containers co-located with one another and can have shared access to each other  |
+  | Limited extensibility | Extensible via a wide variety of thired-party and community add-ons |
+
+  - Launch Types
+
+  | Amazon EC2 Launch Type  | Amazon Fargate Launch Type  |
+  | Explicitly provision EC2 instances  | The control plane asked for resources and Fargate automatically provisions  |
+  | Client responsible for upgrading, patching, care of EC2 pool  | Fargate provisions compute as needed |
+  | Client must handle cluster optimization | Farget handles cluster optimization |
+  | More granular control over infrastructure | Limited control, as infrastrucutre is automated |
+
+- API Gateway
+  - Managed, highly available service to front-end REST APIs
+  - Backed with customer code via Lambda, as a proxy for another AWS service or any other HTTP API on AWS or elsewhere
+  - Regionally based, private or edge optimized 9deployed via CloudFront)
+  - Supports API Keys and Usage Plans for user identification, throttling or quota management
+  - Using CloudFront behind the scenes and customer domains and SNI are supported
+  - Can be published as products and monetized on AWS Marketplace
+-
