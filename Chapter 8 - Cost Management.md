@@ -100,7 +100,7 @@
   - Spot Instance
     - Excess EC2 capacity that AWS tries to sell on market exchange basis
     - Customer creates a Spot Request and specifies AMI, desired instance types and other key information
-    - Customer defines highest price willing to pay for instance. If capacity is contrained and other are willing to pay more, the instance can be terminated or stopped
+    - Customer defines highest price willing to pay for instance. If capacity is constrained and other are willing to pay more, the instance can be terminated or stopped
     - Spot request Types
       - Fill and Kill (One Time only)
         - Spins up a spot instance if the price is higher than the going rate
