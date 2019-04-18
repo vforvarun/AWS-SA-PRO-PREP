@@ -22,13 +22,14 @@
       - Blue-Green Deployment
         - The goal of blue/green deployments is to achieve immutable infrastructure, where you don't make changes to your application after it's deployed, but redeploy altogether
         ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/blue-green.png)
-        ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/blue-green-1.png)
+        ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/blue-green-2.png)
         - Blue Green Methods
           - Update DNS with Route 53 to point to new ELB or instance
-          - Swap Auto-scalaing Group already primed with new version instances behind the ELB
+          - Swap Auto-scaling Group already primed with new version instances behind the ELB
           - Change Auto-Scaling Group Launch Configuration to use new AMI version and terminate old instances.
           - Swap environment URL of Elastic Beanstalk
           - Clone stack in AWS Opsworks and update DNS
+          - Weighted routing, setting weight to 1 for newer version and 0 to the older version
         - Blue Green Contraindication
           - Data store schema is too tightly coupled to the code changes
           - The upgrade requires special upgrade routines to be run during deployment.
