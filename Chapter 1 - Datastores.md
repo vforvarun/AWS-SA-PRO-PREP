@@ -255,4 +255,41 @@ Concepts
     - Autoscale capacity adjusts per configured min/max levels.
         - Auto scaling policies can commission additional read and write capacity, but will not scale down since it doesn't know what's the normal condition.
         - Workarounds available, but doesn't work as expected all the time.
-    -
+
+- Exam Tips
+  - Know when to use various data stores
+
+  |RDS|DynamoDB|S3|EC2|RedShift|
+  |---|---|---|---|---|
+  |Traditional Relational data models|High I/O needs|BLOBs|Database not supported under RDS|OLAP
+  |Existing apps requiring RDBMS|Scale dynamically||Need complete control||
+  |OLTP, ACID-compliant|||||
+
+  - Whitepapers
+    - Storage Options in the Cloud
+      - https://d1.awsstatic.com/whitepapers/Storage/AWS%20Storage%20Services%20Whitepaper-v9.pdf
+    - Multi-Tenant SaaS Storage Strategies
+      - https://d1.awsstatic.com/whitepapers/Multi_Tenant_SaaS_Storage_Strategies.pdf
+    - Performance at Scale with Amazon Elasticache
+      - https://d0.awsstatic.com/whitepapers/performance-at-scale-with-amazon-elasticache.pdf
+  - Videos
+    - Deep Dive on Amazon S3 and Amazon Glacier Storage Management
+      - https://www.youtube.com/watch?v=SUWqDOnXeDw
+    - Deep Dive on Amazon Relational Database Service
+      - https://www.youtube.com/watch?v=TJxC-B9Q9tQ
+    - ElastiCache Deep Dive: Best Practices
+      - https://www.youtube.com/watch?v=_YYBdsuUq2M
+    - Deep Dive: Using Hybrid Storage with AWS Storage Gateway to solve On-Premises Storage Problems
+      - https://www.youtube.com/watch?v=9wgaV70FeaM
+- Pro Tips
+  - Storage
+    - Archiving and Backup often a great "pilot" to build AWS business case
+    - Make use of the S3 endpoints within the VPC
+    - Learn how to properly secure S3 bucket
+    - Encrypt, Encrypt, Encrypt
+  - Databases
+    - Consider Aurora for production MySQL/Maria or PostgreSQL
+      - Extra Optimization options built-in, eg, provides automatic failover to read replica.
+    - Consider NoSQL database if there is no need for relational database features
+    - Databases on EC2 cost less on the surface than RDS, but remember to factor in management (backups, patching, OS-level hardning)
+    - There can be a performance hit when RDS backups run if you have only a single AZ instance
