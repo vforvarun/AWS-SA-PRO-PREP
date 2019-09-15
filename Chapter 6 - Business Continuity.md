@@ -215,7 +215,7 @@
     - Elastic IPs allow flexibility to change out baking assets without impacting name resolution
     - For multi-AZ redundancy of NAT Gateways, create gateways in each AZ with routes for private subnets to use the local Gateway
     ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/redundant-arch.png)
-    ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/route-53-hcs.png)
+    ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/route-53-HCs.png)
 - Exam Tips
   - General Concepts
     - Know the difference between Business Continuity, Disaster Recovery and Service Levels
@@ -282,7 +282,7 @@
       | Unable to build invoice | 8 | 3 | 2 | 48  |
 
       - Step 3: Prioritize on Risk
-      
+
       | Failure Mode  | Customer Impact | Likelihood  | Detect and React  | Risk Priority Number  |
       | ------------  | --------------- | ----------- | ----------------  | --------------------  |
       | Pricing Unavailable  |  7 | 3 | 2 | 42  |
