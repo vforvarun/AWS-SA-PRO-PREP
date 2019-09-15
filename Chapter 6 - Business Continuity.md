@@ -264,6 +264,7 @@
     - Case Study #1
       - Invoicing
       - Step 1: Round up Possible Failures
+
       | Failure Mode  | Cause | Current Controls  |
       | ------------  | ----- | ----------------  |
       | Pricing Unavailable  |  Retail price incorrect in ERP system | Master data maintenance audit report  |
@@ -272,6 +273,7 @@
       | Unable to build invoice | Invoicing System is offline | Uptime monitor  |
 
       - Step 2: Assign Scores
+
       | Failure Mode  | Customer Impact | Likelihood  | Detect and React  | Risk Priority Number  |
       | ------------  | --------------- | ----------- | ----------------  | --------------------  |
       | Pricing Unavailable  |  7 | 3 | 2 | 42  |
@@ -280,6 +282,7 @@
       | Unable to build invoice | 8 | 3 | 2 | 48  |
 
       - Step 3: Prioritize on Risk
+      
       | Failure Mode  | Customer Impact | Likelihood  | Detect and React  | Risk Priority Number  |
       | ------------  | --------------- | ----------- | ----------------  | --------------------  |
       | Pricing Unavailable  |  7 | 3 | 2 | 42  |
