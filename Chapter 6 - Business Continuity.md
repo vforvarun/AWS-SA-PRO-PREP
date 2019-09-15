@@ -265,7 +265,7 @@
       - Invoicing
       - Step 1: Round up Possible Failures
       | Failure Mode  | Cause | Current Controls  |
-        ------------  | ----- | ----------------  |
+      | ------------  | ----- | ----------------  |
       | Pricing Unavailable  |  Retail price incorrect in ERP system | Master data maintenance audit report  |
       | Pricing Incorrect | Retail price not assigned in ERP system | None  |
       | Slow to build Invoice | Invoicing System is slow  | None  |
@@ -273,7 +273,7 @@
 
       - Step 2: Assign Scores
       | Failure Mode  | Customer Impact | Likelihood  | Detect and React  | Risk Priority Number  |
-        ------------  | --------------- | ----------- | ----------------  | --------------------  |
+      | ------------  | --------------- | ----------- | ----------------  | --------------------  |
       | Pricing Unavailable  |  7 | 3 | 2 | 42  |
       | Pricing Incorrect | 8 | 3 | 9 | 216  |
       | Slow to build Invoice | 5 | 2 | 9 | 90  |
@@ -281,7 +281,7 @@
 
       - Step 3: Prioritize on Risk
       | Failure Mode  | Customer Impact | Likelihood  | Detect and React  | Risk Priority Number  |
-        ------------  | --------------- | ----------- | ----------------  | --------------------  |
+      | ------------  | --------------- | ----------- | ----------------  | --------------------  |
       | Pricing Unavailable  |  7 | 3 | 2 | 42  |
       | Pricing Incorrect | 8 | 3 | 9 | **`216`**  |
       | Slow to build Invoice | 5 | 2 | 9 | 90  |
