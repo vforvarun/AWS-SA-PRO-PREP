@@ -44,7 +44,7 @@
   - Continuous Deployment
     - Each code change that passes all stages of the release process is released to production with no human intervention required
 - Typical Development Lifecycle
-  ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/development-lifecycle.png)
+  ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/develoment-lifecycle.png)
   - Test Automation
   ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/test-automation.png)
   - Continuous Integration
