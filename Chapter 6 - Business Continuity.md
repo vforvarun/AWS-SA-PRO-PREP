@@ -200,8 +200,8 @@
     - Best HA option is to use a multi-node cluster which supports data replication and recovery
     - A single-node Redshift cluster doesn't support data replication, if it fails then manual it should restore from a snapshot on S3.
   - Memcached
-    - Because Memcached doesn't support replication, a node failure will result in dataloss
-    - Use multiple nodes in each shard to minimize data loss on node failuer
+    - Because Memcached doesn't support replication, a node failure will result in data loss
+    - Use multiple nodes in each shard to minimize data loss on node failure
     - Launch multiple nodes across available AZs to minimize data loss on AZ failure
   - Redis
     - Use multiple nodes in each shard and distribute the nodes across multiple AZs
@@ -264,31 +264,28 @@
     - Case Study #1
       - Invoicing
       - Step 1: Round up Possible Failures
-
-          | Failure Mode  | Cause | Current Controls  |
-            ------------  | ----- | ----------------  |
-          | Pricing Unavailable  |  Retail price incorrect in ERP system | Master data maintenance audit report  |
-          | Pricing Incorrect | Retail price not assigned in ERP system | None  |
-          | Slow to build Invoice | Invoicing System is slow  | None  |
-          | Unable to build invoice | Invoicing System is offline | Uptime monitor  |
+      | Failure Mode  | Cause | Current Controls  |
+        ------------  | ----- | ----------------  |
+      | Pricing Unavailable  |  Retail price incorrect in ERP system | Master data maintenance audit report  |
+      | Pricing Incorrect | Retail price not assigned in ERP system | None  |
+      | Slow to build Invoice | Invoicing System is slow  | None  |
+      | Unable to build invoice | Invoicing System is offline | Uptime monitor  |
 
       - Step 2: Assign Scores
-
-          | Failure Mode  | Customer Impact | Likelihood  | Detect and React  | Risk Priority Number  |
-            ------------  | --------------- | ----------- | ----------------  | --------------------  |
-          | Pricing Unavailable  |  7 | 3 | 2 | 42  |
-          | Pricing Incorrect | 8 | 3 | 9 | 216  |
-          | Slow to build Invoice | 5 | 2 | 9 | 90  |
-          | Unable to build invoice | 8 | 3 | 2 | 48  |
+      | Failure Mode  | Customer Impact | Likelihood  | Detect and React  | Risk Priority Number  |
+        ------------  | --------------- | ----------- | ----------------  | --------------------  |
+      | Pricing Unavailable  |  7 | 3 | 2 | 42  |
+      | Pricing Incorrect | 8 | 3 | 9 | 216  |
+      | Slow to build Invoice | 5 | 2 | 9 | 90  |
+      | Unable to build invoice | 8 | 3 | 2 | 48  |
 
       - Step 3: Prioritize on Risk
-
-          | Failure Mode  | Customer Impact | Likelihood  | Detect and React  | Risk Priority Number  |
-            ------------  | --------------- | ----------- | ----------------  | --------------------  |
-          | Pricing Unavailable  |  7 | 3 | 2 | 42  |
-          | Pricing Incorrect | 8 | 3 | 9 | **`216`**  |
-          | Slow to build Invoice | 5 | 2 | 9 | 90  |
-          | Unable to build invoice | 8 | 3 | 2 | 48  |
+      | Failure Mode  | Customer Impact | Likelihood  | Detect and React  | Risk Priority Number  |
+        ------------  | --------------- | ----------- | ----------------  | --------------------  |
+      | Pricing Unavailable  |  7 | 3 | 2 | 42  |
+      | Pricing Incorrect | 8 | 3 | 9 | **`216`**  |
+      | Slow to build Invoice | 5 | 2 | 9 | 90  |
+      | Unable to build invoice | 8 | 3 | 2 | 48  |
 
     - FMEA Across Diaster Categories
     ![alt text](https://github.com/vforvarun/AWS-SA-PRO-PREP/blob/master/images/case-study-2.png)
